@@ -1,4 +1,4 @@
-# CS839_DataSciences
+# CS839 DataSciences
 project website for CS839 Data Sciences (2019 Fall)
 
 ## members: 
