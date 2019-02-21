@@ -1,5 +1,5 @@
 # CS839 Data Sciences
-project website for CS839 Data Sciences (2019 Fall)
+project page for CS839 Data Sciences (2019 Fall)
 
 ## members: 
 * Jing Liu
