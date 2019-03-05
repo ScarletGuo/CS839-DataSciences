@@ -5,8 +5,10 @@ import nltk.data
 from nltk.tokenize import word_tokenize
 from nltk.util import ngrams
 from io import open
-from copy import deepcopy
+from features import *
 import pandas as pd
+import itertools
+from tqdm import tqdm
 #import ipdb
 import string
 import spacy
@@ -17,12 +19,13 @@ tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
 
 class NgramFeature(object):
-    def __init__(self, doc_id, ngram, sts_id, upcase_ratio):
+    def __init__(self, doc_id, ngram, sts_id, span_id, n):
         self.features = {
             'doc_id': doc_id,
             'ngram': ngram,
             'sentence_id': sts_id,
-            'upcase_ratio': upcase_ratio,
+            'span_id': span_id,
+            'length': n,
         }
 
     def get_table_row(self):
@@ -30,6 +33,9 @@ class NgramFeature(object):
 
     def add_feature(self, name, value):
         self.features[name] = value
+        
+    def add_features(self, feat):
+        self.features.update(feat)
 
 
 """
@@ -44,63 +50,44 @@ def get_sentances(fname):
     return sts_list
 
 
-def find_word_index(sts, word):
-    return re.split('\s+', sts).index(word)
-
-
-def find_word_pos(sts, word):
-    a = re.search(re.compile(r'\b%s\b' % word), sts)
-    if(a is None):
-        print(sts)
-        print(word)
-        return None
-    return a.start()
-
-def find_ngram_upcase(items):
-    assert(len(items) > 0)
-    total = 0
-    for item in items:
-        if 'A' <= item[0] <= 'Z':
-            total += 1
-    return float(total) / len(items)
-
-
 def get_linguistic_features(sts):
     nlp = spacy.load('en_core_web_sm')
     return nlp(sts)
+
+
+def find_ngram(L, comb_len=3):
+    return [((i, i+j), L[i:i+j]) for i in range(0,comb_len) for j in range(1,len(L)-i+1)]
 
 
 def find_ngram_index(doc_id, sts_list, comb_len):
     fobj_list = []
     exclude = set(string.punctuation)
     for sts_id, sts in enumerate(sts_list):
+        sts_fobj_list = []
         # sentence level
         cur_sts = re.sub('\s+', ' ', sts).strip()
         ling_feat = get_linguistic_features(cur_sts)
-        # merge spans
-        for span in ling_feat.ents:
-            #copy_feat = deepcopy(ling_feat)
-            token = span.merge()
-            upcase_ratio = find_ngram_upcase(token.text)
-            ngram_fobj = NgramFeature(doc_id, token.text, sts_id, upcase_ratio)
-            for attr in dir(token):
-                if attr.startswith("__") or attr.endswith('_') or len(attr)<=1:
-                    continue
-                val = getattr(token, attr)
-                if isinstance(val, float) or isinstance(val, int) or isinstance(val, long):
-                    ngram_fobj.add_feature(attr, val)
-            fobj_list.append(ngram_fobj)
-#         cur_sts = ''.join(ch for ch in sts if ch not in exclude)
-#         for i in range(1, comb_len + 1):
-#             tokens = word_tokenize(cur_sts)
-#             this_grams = ngrams(tokens, i)
-#             for item in this_grams:
-#                 idx = find_word_index(cur_sts, item[0])
-#                 if(idx is None):
-#                     continue
-#                 upcase_ratio = find_ngram_upcase(item)
-#                 ngram_fobj = NgramFeature(doc_id, item, cur_sts, idx, upcase_ratio)
-#                 fobj_list.append(ngram_fobj)
+        tokens_in_sts = [t for t in ling_feat]
+        # get candidates
+        for span_id, span in enumerate(ling_feat.noun_chunks):
+            span_fobj_list = []
+            tokens_in_span = [t for t in span]
+            span_txt = " ".join([t.text for t in span])
+            for gram_idx, tokens_in_gram in find_ngram(tokens_in_span, comb_len):
+                gram = map(lambda x: x.text, tokens_in_gram)
+                ngram_fobj = NgramFeature(doc_id, " ".join(gram), sts_id, span_id, len(gram))
+                # add features of the gram
+                ngram_fobj.add_features(get_features(tokens_in_sts, tokens_in_gram, gram_idx, 
+                                                     gram, cur_sts, span_txt))
+                span_fobj_list.append(ngram_fobj)
+            sts_fobj_list.append(span_fobj_list)
+        # merge each nonchunck span and get features of span
+        for span_id, span in enumerate(ling_feat.noun_chunks):
+            span_token = span.merge()
+            span_feature = get_span_features(span_token)
+            for fobj in sts_fobj_list[span_id]:
+                fobj.add_features(span_feature)
+                fobj_list.append(fobj)
     return fobj_list
 
 
@@ -109,11 +96,13 @@ def find_ngram_features(dir_name, comb_len=3):
     txt_names = [f for f in listdir(dir_name) if isfile(join(dir_name, f))]
     fobj_list = []
     sts_list = []
-    for txt_name in txt_names:
+    for txt_name in tqdm(txt_names):
         cur_sts_list = get_sentances(join(dir_name, txt_name))
         sts_list += cur_sts_list
         fobj_list += find_ngram_index(get_doc_id(txt_name), sts_list, comb_len)
-    return pd.DataFrame(data=[fobj.get_table_row() for fobj in fobj_list]).set_index(['ngram','sentence_id','doc_id'])
+        #return find_ngram_index(get_doc_id(txt_name), sts_list, comb_len)
+    return pd.DataFrame(data=[fobj.get_table_row() for fobj in fobj_list]).set_index(
+        ['ngram','doc_id','sentence_id','span_id'])
         
         
 def get_doc_id(txt_name):
@@ -160,6 +149,19 @@ def get_instances():
             temp = temp.rstrip()
             f.write(instance[0] + ":" + temp + ";" + str(instance[2]) + "\n")
     """
+
+'''
+already implemented by SpaCy
+'''
+
+
+def find_word_pos(sts, word):
+    a = re.search(re.compile(r'\b%s\b' % word), sts)
+    if(a is None):
+        print(sts)
+        print(word)
+        return None
+    return a.start()
 
     
 if __name__ == "__main__":
