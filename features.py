@@ -16,8 +16,8 @@ def get_span_features(token):
 def get_features(tokens, this_tokens, gram_idx, grams, sentence, span):
     features = {
         'upcase_ratio': find_ngram_upcase(grams),
-        'has_quote_s': "'s" in " ".join(grams),
-        'next_has_quote_s': get_next(tokens, gram_idx, 'text') == "'s",
+        'has_quote_s': u"'s" in " ".join(grams),
+        'next_has_quote_s': u"'s" in get_next(tokens, gram_idx, 'text'),
         'pre_has_prefix': get_prev(tokens, gram_idx, 'text').lower() in ['king', 'duke', 'dowager'],
     }
     for attr in single_token_feature:
@@ -37,14 +37,18 @@ def find_ngram_upcase(items):
 
 def get_prev(tokens, gram_idx, attr):
     first_idx = gram_idx[0]
-    if first_idx-1 > len(tokens):
+    if first_idx-1 < 0:
+        if attr == "text":
+            return ""
         return 0
     return getattr(tokens[first_idx-1], attr)
 
 
 def get_next(tokens, gram_idx, attr):
     last_idx = gram_idx[-1]
-    if last_idx+1 > len(tokens):
+    if last_idx+1 >= len(tokens):
+        if attr == "text":
+            return ""
         return 0
     return getattr(tokens[last_idx+1], attr)
 

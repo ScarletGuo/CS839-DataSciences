@@ -56,7 +56,7 @@ def get_linguistic_features(sts):
 
 
 def find_ngram(L, comb_len=3):
-    return [((i, i+j), L[i:i+j]) for i in range(0,comb_len) for j in range(1,len(L)-i+1)]
+    return [L[i:i+j] for i in range(0,comb_len) for j in range(1,len(L)-i+1)]
 
 
 def find_ngram_index(doc_id, sts_list, comb_len):
@@ -73,7 +73,8 @@ def find_ngram_index(doc_id, sts_list, comb_len):
             span_fobj_list = []
             tokens_in_span = [t for t in span]
             span_txt = " ".join([t.text for t in span])
-            for gram_idx, tokens_in_gram in find_ngram(tokens_in_span, comb_len):
+            for tokens_in_gram in find_ngram(tokens_in_span, comb_len):
+                gram_idx = map(lambda x: x.i, tokens_in_gram)
                 gram = map(lambda x: x.text, tokens_in_gram)
                 ngram_fobj = NgramFeature(doc_id, " ".join(gram), sts_id, span_id, len(gram))
                 # add features of the gram
