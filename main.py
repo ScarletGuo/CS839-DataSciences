@@ -48,7 +48,7 @@ def load_Y(path, X):
     Y = pd.concat(y).to_frame()
     Y.columns = ['gt']
     Y['ngram'] = X['ngram']
-    return X.set_index(['ngram', 'doc_id']), Y.set_index(['ngram'])
+    return X.set_index(['ngram', 'doc_id']), np.squeeze(Y.set_index(['ngram']))
 
 
 def train_model(X, Y):
