@@ -10,8 +10,8 @@ def validate_path(path):
     return path
 
 
-def write_docs(lines, ID, folder="labeled"):
-    for doc in lines.split("\n"):
+def write_docs(lines, ID, folder="../../labeled"):
+    for doc in lines.split("\n\n"):
         if len(doc) < 5:
             continue
         validate_path(folder)
@@ -26,12 +26,12 @@ def write_docs(lines, ID, folder="labeled"):
     return ID
 
 
-path = "labeled/all/"
+path = "./"
 ID = 0
-for f in os.listdir(path):
-    lines = " ".join([line for line in open(os.path.join(path, f), encoding="utf-8")])
+for f in ['71_labeled.txt', '85_labeled.txt']:
+    lines = "\n".join([line for line in open(os.path.join(path, f), encoding="utf-8")])
     original = lines.replace("<>", "").replace("</>", "")
     write_docs(lines, ID)
-    ID = write_docs(original, ID, folder="original")
+    ID = write_docs(original, ID, folder="../../original")
 
 
