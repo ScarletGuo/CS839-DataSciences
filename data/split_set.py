@@ -12,13 +12,19 @@ def move_to(ID, folder):
 		shutil.move('labeled/%d.txt'%i, 'labeled/%s/'%(folder))
 		shutil.move('original/%d.txt'%i, 'original/%s'%(folder))
 
-f = open("splits.txt", 'w+')
-x = [int(i.replace('.txt','')) for i in os.listdir('labeled') if ".txt" in i]
-f.write("total number of files: %d\n"%len(x))
-np.random.shuffle(x)
-training, test = x[0:200], x[200:300]
-f.write("training: {}\n".format(training))
-f.write("test: {}\n".format(test))
+# f = open("splits.txt", 'w+')
+# x = [int(i.replace('.txt','')) for i in os.listdir('labeled') if ".txt" in i]
+# f.write("total number of files: %d\n"%len(x))
+# np.random.shuffle(x)
+# training, test = x[0:200], x[200:300]
+# f.write("training: {}\n".format(training))
+# f.write("test: {}\n".format(test))
+
+f = open("splits.txt", "r")
+lines = [line for line in f]
+training = eval(lines[1].split(': ')[-1])
+test = eval(lines[2].split(': ')[-1])
 move_to(training, 'train')
 move_to(test, 'test')
-f.close()
+
+# f.close()
