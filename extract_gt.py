@@ -1,5 +1,4 @@
-#! /usr/bin/env python3
-
+from io import open
 import os
 import re
 
