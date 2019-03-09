@@ -11,7 +11,7 @@ func_list = [tree.DecisionTreeClassifier, \
             svm.SVC, \
             linear_model.LinearRegression, \
             linear_model.LogisticRegression]
-
+func_list = [tree.DecisionTreeClassifier]
 #{'max_depth':20, 'n_estimators':30, 'criterion':"entropy", 'max_features':None, 'min_samples_split':17}
 func_param = [{'max_depth':9}, {}, {'kernel':'rbf', 'C':2, 'gamma': 0.1}, {}, {'C':1e5}]
 
@@ -19,13 +19,13 @@ path_train_X = 'data/original/train/'
 path_train_Y = 'data/labeled/train/'
 path_test_X = 'data/original/test/'
 path_test_Y = 'data/labeled/test/'
-"""
+#"""
 # demo
 path_train_X = 'data/original/t/'
 path_train_Y = 'data/labeled/t/'
 path_test_X = 'data/original/t/'
 path_test_Y = 'data/labeled/t/'
-"""
+#"""
 
 def load_data(path_X, path_Y):
     X = load_X(path_X)
@@ -55,7 +55,7 @@ def train_model(X, Y):
     """
     train classifier within function list, using Cross-Validation, find best F1 and best classifier
     """
-    best_F1 = 0
+    best_F1 = -1
 
     for idx in range(len(func_list)):
         func = func_list[idx]
@@ -96,19 +96,21 @@ def calculate_PR(Y, Y_pred, thres=0.5):
             total_pos_label_num = total_pos_label_num + 1
         if Y_pred[i] == 1:
             pred_pos_label_num = pred_pos_label_num + 1
-
-    assert (true_pred_num > 0),"true_pred_num = 0!"
-    assert (pred_pos_label_num > 0),"pred_pos_label_num = 0!"
-    P = float(true_pred_num)/pred_pos_label_num
-    assert (total_pos_label_num > 0),"total_pos_label_num = 0!"
-    R = float(true_pred_num)/total_pos_label_num
-    F1 = (2 * P * R)/(P + R)
+    try:
+        assert (true_pred_num > 0),"true_pred_num = 0!"
+        assert (pred_pos_label_num > 0),"pred_pos_label_num = 0!"
+        P = float(true_pred_num)/pred_pos_label_num
+        assert (total_pos_label_num > 0),"total_pos_label_num = 0!"
+        R = float(true_pred_num)/total_pos_label_num
+        F1 = (2 * P * R)/(P + R)
     
-    print("- Precision(P) = {}/{} = {:.4f}".format(true_pred_num, pred_pos_label_num, P)) 
-    print("- Recall(R) = {}/{} = {:.4f}".format(true_pred_num, total_pos_label_num, R)) 
-    print("- F1 = {:.4f}\n".format(F1))
+        print("- Precision(P) = {}/{} = {:.4f}".format(true_pred_num, pred_pos_label_num, P)) 
+        print("- Recall(R) = {}/{} = {:.4f}".format(true_pred_num, total_pos_label_num, R)) 
+        print("- F1 = {:.4f}\n".format(F1))
     
-    return F1
+        return F1
+    except:
+        return 0
 
 # post processing
 def rule_based_post_processing(Y_pred):
@@ -122,7 +124,7 @@ def debug_PQ_set(X, Y, best_classifier):
     if you try to improve recall then pay attention to the false negative examples
     """
     print("Try the best classifier on debug mode!\n")
-    print("Best classifier is {}".format(best_classifier.__name__))
+    #print("Best classifier is {}".format(best_classifier.__name__))
     print("Best_param : {}".format(best_classifier))
 
     print("Before rule-based postprocessing step:\n")
@@ -148,7 +150,7 @@ def test_model(X, Y, best_classifier):
     Now we have found the best one classifier, apply it onto the test data
     """
     print("Apply the best classifier on test mode!\n")
-    print("Best classifier is {}".format(best_classifier.__name__))
+    #print("Best classifier is {}".format(best_classifier.__name__))
     print("Best_param : {}".format(best_classifier))
 
     print("Before rule-based postprocessing step:\n")
@@ -158,6 +160,28 @@ def test_model(X, Y, best_classifier):
     print("After rule-based postprocessing step:\n")
     #Y_pred_after = rule_based_post_processing(Y_pred)
     #calculate_PR(Y, Y_pred_after)
+    
+
+def run():
+    # train
+    X, Y = load_data(path_train_X, path_train_Y)
+    np.savetxt("train_X.csv", X, delimiter=",")
+    np.savetxt("train_Y.csv", Y, delimiter=",")
+    test_X, test_Y = load_data(path_test_X, path_test_Y)
+    np.savetxt("test_X.csv", test_X, delimiter=",")
+    np.savetxt("test_Y.csv", test_Y, delimiter=",")
+    train_X = X[:160, :]
+    train_Y = Y[:160]
+    best_classifier = train_model(train_X, train_Y)
+
+    # debug
+    debug_X = X[40:] # load_X(path_debug_X)
+    debug_Y = Y[40:] # load_Y(path_debug_Y)
+    debug_PQ_set(debug_X, debug_Y, best_classifier)
+
+    # test
+    
+    test_model(test_X, test_Y, best_classifier)
 
 
 if __name__ == "__main__":

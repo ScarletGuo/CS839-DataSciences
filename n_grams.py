@@ -76,6 +76,8 @@ def find_ngram_index(doc_id, sts_list, comb_len):
             for tokens_in_gram in find_ngram(tokens_in_span, comb_len):
                 gram_idx = map(lambda x: x.i, tokens_in_gram)
                 gram = map(lambda x: x.text, tokens_in_gram)
+                if find_ngram_upcase(gram) != 1:
+                    continue
                 ngram_fobj = NgramFeature(doc_id, " ".join(gram), sts_id, span_id, len(gram))
                 # add features of the gram
                 ngram_fobj.add_features(get_features(tokens_in_sts, tokens_in_gram, gram_idx, 
@@ -92,15 +94,18 @@ def find_ngram_index(doc_id, sts_list, comb_len):
     return fobj_list
 
 
+def process_file(txt_name, dir_name):
+    pass
+
+
 def find_ngram_features(dir_name, comb_len=3):
     dir_name += '/'
     txt_names = [f for f in listdir(dir_name) if isfile(join(dir_name, f))]
     fobj_list = []
-    sts_list = []
+    #sts_list = []
     for txt_name in tqdm(txt_names):
-        cur_sts_list = get_sentances(join(dir_name, txt_name))
-        sts_list += cur_sts_list
-        fobj_list += find_ngram_index(get_doc_id(txt_name), sts_list, comb_len)
+        #sts_list += cur_sts_list
+        fobj_list += find_ngram_index(get_doc_id(txt_name), get_sentances(join(dir_name, txt_name)), comb_len)
         #return find_ngram_index(get_doc_id(txt_name), sts_list, comb_len)
     return pd.DataFrame(data=[fobj.get_table_row() for fobj in fobj_list])
         
