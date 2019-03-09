@@ -14,8 +14,8 @@ def get_span_features(token):
 
 
 def get_features(tokens, this_tokens, gram_idx, grams, sentence, span):
+    #'upcase_ratio': find_ngram_upcase(grams),
     features = {
-        'upcase_ratio': find_ngram_upcase(grams),
         'has_quote_s': u"'s" in " ".join(grams),
         'next_has_quote_s': u"'s" in get_next(tokens, gram_idx, 'text'),
         'pre_has_prefix': get_prev(tokens, gram_idx, 'text').lower() in ['king', 'duke', 'dowager'],
@@ -26,8 +26,22 @@ def get_features(tokens, this_tokens, gram_idx, grams, sentence, span):
     return features
 
 
-def find_ngram_upcase(items):
+def filtering(items, doc_id):
     assert(len(items) > 0)
+    for item in items:
+        if not ('A' <= item[0] <= 'Z'): 
+            return True
+        if has_non_ascii(item):
+            print("NON-ASCII in document {}".format(doc_id))
+            return True
+    return False
+    
+    
+def has_non_ascii(string):
+    return string is not None and any([ord(s) >= 128 for s in string])
+    
+
+def find_ngram_upcase(items):
     total = 0
     for item in items:
         if 'A' <= item[0] <= 'Z':

@@ -76,7 +76,8 @@ def find_ngram_index(doc_id, sts_list, comb_len):
             for tokens_in_gram in find_ngram(tokens_in_span, comb_len):
                 gram_idx = map(lambda x: x.i, tokens_in_gram)
                 gram = map(lambda x: x.text, tokens_in_gram)
-                if find_ngram_upcase(gram) != 1:
+                # filter
+                if filtering(gram, doc_id):
                     continue
                 ngram_fobj = NgramFeature(doc_id, " ".join(gram), sts_id, span_id, len(gram))
                 # add features of the gram
