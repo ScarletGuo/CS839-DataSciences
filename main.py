@@ -11,7 +11,7 @@ func_list = [tree.DecisionTreeClassifier, \
             svm.SVC, \
             linear_model.LinearRegression, \
             linear_model.LogisticRegression]
-func_list = [tree.DecisionTreeClassifier]
+
 #{'max_depth':20, 'n_estimators':30, 'criterion':"entropy", 'max_features':None, 'min_samples_split':17}
 func_param = [{'max_depth':9}, {}, {'kernel':'rbf', 'C':2, 'gamma': 0.1}, {}, {'C':1e5}]
 
@@ -19,13 +19,13 @@ path_train_X = 'data/original/train/'
 path_train_Y = 'data/labeled/train/'
 path_test_X = 'data/original/test/'
 path_test_Y = 'data/labeled/test/'
-#"""
+"""
 # demo
 path_train_X = 'data/original/t/'
 path_train_Y = 'data/labeled/t/'
 path_test_X = 'data/original/t/'
 path_test_Y = 'data/labeled/t/'
-#"""
+"""
 
 def load_data(path_X, path_Y):
     X = load_X(path_X)
@@ -33,7 +33,7 @@ def load_data(path_X, path_Y):
     # X, Y are data frames
     # index for X: (ngram, doc_id)
     # index for Y: ngram
-    return X.values, Y.values
+    return X, Y
 
 
 def load_X(path):
@@ -136,6 +136,7 @@ def debug_PQ_set(X, Y, best_classifier):
     #calculate_PR(Y, Y_pred_after)
 
     #analyze_false_positive(Y, Y_pred_after)
+    return Y_pred
 
 def analyze_false_positive(Y, Y_pred):
     """
@@ -162,50 +163,53 @@ def test_model(X, Y, best_classifier):
     #calculate_PR(Y, Y_pred_after)
     
 
-def run():
+def debug():
     # train
     X, Y = load_data(path_train_X, path_train_Y)
-    np.savetxt("train_X.csv", X, delimiter=",")
-    np.savetxt("train_Y.csv", Y, delimiter=",")
+#     np.savetxt("train_X.csv", X, delimiter=",")
+#     np.savetxt("train_Y.csv", Y, delimiter=",")
+    X.to_csv("train_X.csv")
+    Y.to_csv("train_Y.csv")
     test_X, test_Y = load_data(path_test_X, path_test_Y)
-    np.savetxt("test_X.csv", test_X, delimiter=",")
-    np.savetxt("test_Y.csv", test_Y, delimiter=",")
-    train_X = X[:160, :]
-    train_Y = Y[:160]
+#     np.savetxt("test_X.csv", test_X, delimiter=",")
+#     np.savetxt("test_Y.csv", test_Y, delimiter=",")
+    X.to_csv("test_X.csv")
+    Y.to_csv("test_Y.csv")
+    train_X = X[:160, :].values
+    train_Y = Y[:160].values
     best_classifier = train_model(train_X, train_Y)
 
     # debug
-    debug_X = X[40:] # load_X(path_debug_X)
-    debug_Y = Y[40:] # load_Y(path_debug_Y)
-    debug_PQ_set(debug_X, debug_Y, best_classifier)
+    debug_X = X[40:].values # load_X(path_debug_X)
+    debug_Y = Y[40:].values # load_Y(path_debug_Y)
+    debug_pred = debug_PQ_set(debug_X, debug_Y, best_classifier)
+    return pd.DataFrame(data=np.hstack[Y[40:].index.values,debug_pred,debug_Y], columns=['ngram','predict', 'gt'])
 
     # test
     
-    test_model(test_X, test_Y, best_classifier)
+    #test_model(test_X, test_Y, best_classifier)
 
 
 if __name__ == "__main__":
     # train
     X, Y = load_data(path_train_X, path_train_Y)
-    np.savetxt("train_X.csv", X, delimiter=",")
-    np.savetxt("train_Y.csv", Y, delimiter=",")
+    X.to_csv("train_X.csv")
+    Y.to_csv("train_Y.csv")
     test_X, test_Y = load_data(path_test_X, path_test_Y)
-    np.savetxt("test_X.csv", test_X, delimiter=",")
-    np.savetxt("test_Y.csv", test_Y, delimiter=",")
-    train_X = X[:160, :]
-    train_Y = Y[:160]
+    X.to_csv("test_X.csv")
+    Y.to_csv("test_Y.csv")
+    train_X = X[:160, :].values
+    train_Y = Y[:160].values
     best_classifier = train_model(train_X, train_Y)
 
     # debug
-    debug_X = X[40:] # load_X(path_debug_X)
-    debug_Y = Y[40:] # load_Y(path_debug_Y)
+    debug_X = X[40:].values # load_X(path_debug_X)
+    debug_Y = Y[40:].values # load_Y(path_debug_Y)
     debug_PQ_set(debug_X, debug_Y, best_classifier)
 
     # test
     
     test_model(test_X, test_Y, best_classifier)
-
-
 
 
 """
