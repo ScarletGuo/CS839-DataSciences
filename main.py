@@ -19,13 +19,13 @@ path_train_X = 'data/original/train/'
 path_train_Y = 'data/labeled/train/'
 path_test_X = 'data/original/test/'
 path_test_Y = 'data/labeled/test/'
-
+"""
 # demo
 path_train_X = 'data/original/t/'
 path_train_Y = 'data/labeled/t/'
 path_test_X = 'data/original/t/'
 path_test_Y = 'data/labeled/t/'
-
+"""
 
 def load_data(path_X, path_Y):
     X = load_X(path_X)
@@ -127,13 +127,13 @@ def debug_PQ_set(X, Y, best_classifier):
 
     print("Before rule-based postprocessing step:\n")
     Y_pred = best_classifier.predict(X)
-    calculate_PR(Y, Y_pred)
+    F1 = calculate_PR(Y, Y_pred)
 
     print("After rule-based postprocessing step:\n")
-    Y_pred_after = rule_based_post_processing(Y_pred)
-    calculate_PR(Y, Y_pred_after)
+    #Y_pred_after = rule_based_post_processing(Y_pred)
+    #calculate_PR(Y, Y_pred_after)
 
-    analyze_false_positive(Y, Y_pred_after)
+    #analyze_false_positive(Y, Y_pred_after)
 
 def analyze_false_positive(Y, Y_pred):
     """
@@ -153,26 +153,35 @@ def test_model(X, Y, best_classifier):
 
     print("Before rule-based postprocessing step:\n")
     Y_pred = best_classifier.predict(X)
-    calculate_PR(Y, Y_pred)
+    F1 = calculate_PR(Y, Y_pred)
 
     print("After rule-based postprocessing step:\n")
-    Y_pred_after = rule_based_post_processing(Y_pred)
-    calculate_PR(Y, Y_pred_after)
+    #Y_pred_after = rule_based_post_processing(Y_pred)
+    #calculate_PR(Y, Y_pred_after)
 
 
 if __name__ == "__main__":
     # train
-    train_X, train_Y = load_data(path_train_X, path_train_Y)
+    X, Y = load_data(path_train_X, path_train_Y)
+    np.savetxt("train_X.csv", X, delimiter=",")
+    np.savetxt("train_Y.csv", Y, delimiter=",")
+    test_X, test_Y = load_data(path_test_X, path_test_Y)
+    np.savetxt("test_X.csv", test_X, delimiter=",")
+    np.savetxt("test_Y.csv", test_Y, delimiter=",")
+    train_X = X[:160, :]
+    train_Y = Y[:160]
     best_classifier = train_model(train_X, train_Y)
 
     # debug
-    debug_X = load_X(path_debug_X)
-    debug_Y = load_Y(path_debug_Y)
+    debug_X = X[40:] # load_X(path_debug_X)
+    debug_Y = Y[40:] # load_Y(path_debug_Y)
     debug_PQ_set(debug_X, debug_Y, best_classifier)
 
     # test
-    test_X, test_Y = load_data(path_test_X, path_test_Y)
-    results, ev = test_model(test_X, test_Y, best_classifier)
+    
+    test_model(test_X, test_Y, best_classifier)
+
+
 
 
 """
