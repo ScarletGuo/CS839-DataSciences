@@ -20,13 +20,36 @@ path_train_Y = 'data/labeled/train/'
 path_test_X = 'data/original/test/'
 path_test_Y = 'data/labeled/test/'
 
-def load_X(path):
-    X = find_ngram_features(path)
-    return X.values
+# demo
+path_train_X = 'data/original/t/'
+path_train_Y = 'data/labeled/t/'
+path_test_X = 'data/original/t/'
+path_test_Y = 'data/labeled/t/'
 
-def load_Y(path):
+
+def load_data(path_X, path_Y):
+    X = load_X(path_X)
+    X, Y = load_Y(path_Y, X)
+    # X, Y are data frames
+    # index for X: (ngram, doc_id)
+    # index for Y: ngram
+    return X.values, Y.values
+
+
+def load_X(path):
+    return find_ngram_features(path)
+
+
+def load_Y(path, X):
     # dictionary: {doc_id: list of names}
-    return extract_gt(path)
+    gt = extract_gt(path)
+    y = [group['ngram'].apply(lambda x: x in gt[doc_id]) 
+    for doc_id, group in X.groupby('doc_id')]
+    Y = pd.concat(y).to_frame()
+    Y.columns = ['gt']
+    Y['ngram'] = X['ngram']
+    return X.set_index(['ngram', 'doc_id']), Y.set_index(['ngram'])
+
 
 def train_model(X, Y):
     """
@@ -139,8 +162,7 @@ def test_model(X, Y, best_classifier):
 
 if __name__ == "__main__":
     # train
-    train_X = load_X(path_train_X)
-    train_Y = load_Y(path_train_Y)
+    train_X, train_Y = load_data(path_train_X, path_train_Y)
     best_classifier = train_model(train_X, train_Y)
 
     # debug
@@ -149,8 +171,7 @@ if __name__ == "__main__":
     debug_PQ_set(debug_X, debug_Y, best_classifier)
 
     # test
-    test_X = load_X(path_test_X)
-    test_Y = load_Y(path_test_Y)
+    test_X, test_Y = load_data(path_test_X, path_test_Y)
     results, ev = test_model(test_X, test_Y, best_classifier)
 
 

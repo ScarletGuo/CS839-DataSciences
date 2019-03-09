@@ -102,8 +102,7 @@ def find_ngram_features(dir_name, comb_len=3):
         sts_list += cur_sts_list
         fobj_list += find_ngram_index(get_doc_id(txt_name), sts_list, comb_len)
         #return find_ngram_index(get_doc_id(txt_name), sts_list, comb_len)
-    return pd.DataFrame(data=[fobj.get_table_row() for fobj in fobj_list]).set_index(
-        ['ngram','doc_id','sentence_id','span_id'])
+    return pd.DataFrame(data=[fobj.get_table_row() for fobj in fobj_list])
         
         
 def get_doc_id(txt_name):
