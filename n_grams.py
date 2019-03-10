@@ -104,7 +104,7 @@ def find_ngram_index(doc_id, sts_list, comb_len):
 
 def process_file(txt_name, dir_name='', comb_len=3):
     fobj = find_ngram_index(get_doc_id(txt_name), get_sentances(join(dir_name, txt_name)), comb_len)
-    logger.info('Done processing %s'%txt_name)
+    #logger.info('Done processing %s'%txt_name)
     return fobj
 
 
@@ -112,9 +112,17 @@ def find_ngram_features(dir_name, comb_len=3, workers=4):
     dir_name += '/'
     txt_names = [f for f in listdir(dir_name) if isfile(join(dir_name, f))]
     p = Pool(workers)
-    fobj_lists = p.map(partial(process_file, dir_name=dir_name, comb_len=comb_len), txt_names)
+    fobj_list = []
+    with tqdm(total = len(txt_names)) as pbar:
+        for i, fobjs in tqdm(enumerate(p.imap_unordered(partial(process_file, 
+                                                              dir_name=dir_name, 
+                                                              comb_len=comb_len), txt_names))):
+            pbar.update()
+            fobj_list += fobjs
+    #fobj_lists = p.map(partial(process_file, dir_name=dir_name, comb_len=comb_len), txt_names)
     #fobj_list += find_ngram_index(get_doc_id(txt_name), get_sentances(join(dir_name, txt_name)), comb_len)
-    return pd.DataFrame(data=[fobj.get_table_row() for fobj_list in fobj_lists for fobj in fobj_list])
+    #return pd.DataFrame(data=[fobj.get_table_row() for fobj_list in fobj_lists for fobj in fobj_list])
+    return pd.DataFrame(data=[fobj.get_table_row() for fobj in fobj_list])
         
         
 def get_doc_id(txt_name):

@@ -23,23 +23,11 @@ func_list = [tree.DecisionTreeClassifier, \
 #{'max_depth':20, 'n_estimators':30, 'criterion':"entropy", 'max_features':None, 'min_samples_split':17}
 func_param = [{'max_depth':9}, {}, {'kernel':'rbf', 'C':2, 'gamma': 0.1}, {}, {'C':1e5}]
 
-path_train_X = 'data/original/train/'
-path_train_Y = 'data/labeled/train/'
-path_test_X = 'data/original/test/'
-path_test_Y = 'data/labeled/test/'
-
-# # demo
-# path_train_X = 'data/original/t/'
-# path_train_Y = 'data/labeled/t/'
-# path_test_X = 'data/original/t/'
-# path_test_Y = 'data/labeled/t/'
-
-
 
 def bool_to_float(X):
     for c, t in zip(X.columns.values, X.dtypes):
-        if t == 'bool':
-            X[c] = X[c]*1
+        if t == 'object':
+            X[c] = X[c].astype('float')
     return X
 
 
@@ -87,10 +75,10 @@ def train_model(X, Y):
         print("Using {}. {}".format(idx, func.__name__))
         
         # CV to get the generalization error of classifier
-        Y_pred = cross_val_predict(classifier, X, Y, cv=5)
-        F1 = calculate_PR(Y, Y_pred)
-        #scores = cross_val_score(classifier, X, Y, cv=5)  # not use; should search classifier with highest F1
-        #F1 = scores.mean()
+#         Y_pred = cross_val_predict(classifier, X, Y, cv=5)
+#         F1 = calculate_PR(Y, Y_pred)
+        scores = cross_val_score(classifier, X, Y, scoring='f1', cv=5)  # not use; should search classifier with highest F1
+        F1 = scores.mean()
 
         classifier.fit(X, Y)  # must call .fit() before call .predict()
         print("best_param = {}".format(classifier))
@@ -101,6 +89,7 @@ def train_model(X, Y):
             best_idx = idx
             best_F1 = F1
             best_classifier = classifier
+        break
 
     print("Training finished: the best classifier is {}. Its best F1 score is {}.\n".format(best_classifier, best_F1))
 
@@ -194,26 +183,48 @@ def test_model(X, Y, best_classifier):
     
 class NameIdentifier(object):
     
-    def __init__(self, num_workers=4, from_csv=True):
+    def __init__(self, num_workers=4, from_csv=True, demo=False):
         if from_csv:
-            self.X, self.Y = load_data("saved_csv/train_X.csv", "saved_csv/train_Y.csv", from_csv=True)
-            self.test_X, self.test_Y = load_data("saved_csv/test_X.csv", "saved_csv/test_Y.csv", from_csv=True)
+            self.X, self.Y = load_data("train_X.csv", "train_Y.csv", from_csv=True)
+            self.test_X, self.test_Y = load_data("test_X.csv", "test_Y.csv", from_csv=True)
         else:
+            path_train_X, path_train_Y, path_test_X, path_test_Y = NameIdentifier.get_path(demo)
             self.X, self.Y = load_data(path_train_X, path_train_Y, label='train', workers=num_workers)
             self.test_X, self.test_Y = load_data(path_test_X, path_test_Y, label='test', workers=num_workers)
         self.classifiers = []
         self.best_classifier = None
+    
+    @staticmethod
+    def get_path(demo):
+        if not demo:
+            path_train_X = 'data/original/train/'
+            path_train_Y = 'data/labeled/train/'
+            path_test_X = 'data/original/test/'
+            path_test_Y = 'data/labeled/test/'
+        else:
+            path_train_X = 'data/original/t/'
+            path_train_Y = 'data/labeled/t/'
+            path_test_X = 'data/original/t/'
+            path_test_Y = 'data/labeled/t/'
+        return path_train_X, path_train_Y, path_test_X, path_test_Y
             
     def train(self):
         train_X = self.X.values
         train_Y = np.squeeze(self.Y.values)
         self.classifiers, self.best_classifier = train_model(train_X, train_Y)
         
-    def debug(self):
+    def test(self):
         debug_X = self.test_X.values # load_X(path_debug_X)
         debug_Y = np.squeeze(self.test_Y.values) # load_Y(path_debug_Y)
         debug_pred = debug_PQ_set(debug_X, debug_Y, self.best_classifier)
         return pd.DataFrame(data=np.hstack([self.test_Y.index.values.reshape(-1,1), 
+                                            debug_pred.reshape(-1,1), debug_Y.reshape(-1,1)]), 
+                            columns=['ngram','predict', 'gt']).astype({'ngram': 'object','predict': 'bool','gt':'bool'})
+    def debug(self, X, Y, classifier):
+        debug_X = X.values # load_X(path_debug_X)
+        debug_Y = np.squeeze(Y.values) # load_Y(path_debug_Y)
+        debug_pred = debug_PQ_set(debug_X, debug_Y, classifier)
+        return pd.DataFrame(data=np.hstack([Y.index.values.reshape(-1,1), 
                                             debug_pred.reshape(-1,1), debug_Y.reshape(-1,1)]), 
                             columns=['ngram','predict', 'gt']).astype({'ngram': 'object','predict': 'bool','gt':'bool'})
 
@@ -238,7 +249,11 @@ if __name__ == "__main__":
         test_X.to_csv("test_X.csv")
         test_Y.to_csv("test_Y.csv")
     """
-    X, Y = load_data(path_train_X, path_train_Y)
+    path_train_X = 'data/original/train/'
+    path_train_Y = 'data/labeled/train/'
+    path_test_X = 'data/original/test/'
+    path_test_Y = 'data/labeled/test/'
+    X, Y = load_data(path_train_X, path_train_Y, label='train')
     
     train_size = 2500
     train_X = X.values  # exclude n_grams and file_id
@@ -251,7 +266,7 @@ if __name__ == "__main__":
     debug_PQ_set(debug_X, debug_Y, best_classifier)
     
     # test
-    test_X, test_Y = load_data(path_test_X, path_test_Y)
+    test_X, test_Y = load_data(path_test_X, path_test_Y, label='test')
     test_model(test_X, test_Y, best_classifier)
 
 

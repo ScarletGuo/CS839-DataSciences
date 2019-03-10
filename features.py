@@ -65,6 +65,8 @@ def get_prev(tokens, gram_idx, attr):
     if first_idx-1 < 0:
         if attr == "text":
             return ""
+        if isinstance(getattr(tokens[first_idx],attr), np.bool_):
+            return np.bool_(False)
         return 0
     return getattr(tokens[first_idx-1], attr)
 
@@ -75,7 +77,7 @@ def get_next(tokens, gram_idx, attr):
         if attr == "text":
             return ""
         if isinstance(getattr(tokens[last_idx],attr), np.bool_):
-            return True
+            return np.bool_(False)
         return 0
     return getattr(tokens[last_idx+1], attr)
 
