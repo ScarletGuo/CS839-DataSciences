@@ -1,9 +1,12 @@
 import re
+import numpy as np
 
 
 single_token_feature = ['tag', 'pos', 'dep', 'is_punct', 'is_space', 
                         'is_stop', 'is_alpha', 'ent_type','lemma', 
                         'is_quote', 'lex_id']
+
+prefix = ['king', 'duke', 'lord', 'dowager', 'master', 'prince']
 
 
 def get_span_features(token):
@@ -18,7 +21,8 @@ def get_features(tokens, this_tokens, gram_idx, grams, sentence, span):
     features = {
         'has_quote_s': u"'s" in " ".join(grams),
         'next_has_quote_s': u"'s" in get_next(tokens, gram_idx, 'text'),
-        'pre_has_prefix': get_prev(tokens, gram_idx, 'text').lower() in ['king', 'duke', 'dowager'],
+        'pre_has_prefix': get_prev(tokens, gram_idx, 'text').lower() in prefix,
+        'has_prefix': has_prefix(grams)
     }
     for attr in single_token_feature:
         features['prev_'+attr] = get_prev(tokens, gram_idx, attr)
@@ -33,6 +37,13 @@ def filtering(items, doc_id):
             return True
         if has_non_ascii(item):
             print("NON-ASCII in document {}".format(doc_id))
+            return True
+    return False
+
+
+def has_prefix(grams):
+    for t in grams:
+        if t.lower() in prefix:
             return True
     return False
     
@@ -54,6 +65,8 @@ def get_prev(tokens, gram_idx, attr):
     if first_idx-1 < 0:
         if attr == "text":
             return ""
+        if isinstance(getattr(tokens[first_idx],attr), np.bool_):
+            return np.bool_(False)
         return 0
     return getattr(tokens[first_idx-1], attr)
 
@@ -63,6 +76,8 @@ def get_next(tokens, gram_idx, attr):
     if last_idx+1 >= len(tokens):
         if attr == "text":
             return ""
+        if isinstance(getattr(tokens[last_idx],attr), np.bool_):
+            return np.bool_(False)
         return 0
     return getattr(tokens[last_idx+1], attr)
 

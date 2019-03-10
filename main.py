@@ -5,7 +5,14 @@ from sklearn.model_selection import cross_val_predict, GridSearchCV, cross_val_s
 from extract_gt import *
 import pandas as pd
 import graphviz 
-import ipdb
+import logging
+#import ipdb
+
+
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
 
 func_list = [tree.DecisionTreeClassifier, \
             ensemble.RandomForestClassifier, \
@@ -16,29 +23,32 @@ func_list = [tree.DecisionTreeClassifier, \
 #{'max_depth':20, 'n_estimators':30, 'criterion':"entropy", 'max_features':None, 'min_samples_split':17}
 func_param = [{'max_depth':9}, {}, {'kernel':'rbf', 'C':2, 'gamma': 0.1}, {}, {'C':1e5}]
 
-path_train_X = 'data/original/train/'
-path_train_Y = 'data/labeled/train/'
-path_test_X = 'data/original/test/'
-path_test_Y = 'data/labeled/test/'
-"""
-# demo
-path_train_X = 'data/original/t/'
-path_train_Y = 'data/labeled/t/'
-path_test_X = 'data/original/t/'
-path_test_Y = 'data/labeled/t/'
-"""
 
-def load_data(path_X, path_Y):
-    X = load_X(path_X)
-    X, Y = load_Y(path_Y, X)
-    # X, Y are data frames
-    # index for X: (ngram, doc_id)
-    # index for Y: ngram
+def bool_to_float(X):
+    for c, t in zip(X.columns.values, X.dtypes):
+        if t == 'object':
+            X[c] = X[c].astype('float')
+    return X
+
+
+def load_data(path_X, path_Y, from_csv=False, label='train', workers=4):
+    if from_csv:
+        X = pd.read_csv(path_X, index_col=[0,1], true_values=['True'], false_values=['False'])
+        Y = pd.read_csv(path_Y, index_col=0, true_values=['True'], false_values=['False'])
+    else:
+        X = load_X(path_X, workers)
+        X.to_csv(label+'_X.csv')
+        Y = load_Y(path_Y, X)
+        Y.to_csv(label+'_Y.csv')
+        X = X.set_index(['ngram', 'doc_id'])
+        # X, Y are data frames
+        # index for X: (ngram, doc_id)
+        # index for Y: ngram
     return X, Y
 
 
-def load_X(path):
-    return find_ngram_features(path)
+def load_X(path, workers):
+    return bool_to_float(find_ngram_features(path, workers))
 
 
 def load_Y(path, X):
@@ -49,7 +59,7 @@ def load_Y(path, X):
     Y = pd.concat(y).to_frame()
     Y.columns = ['gt']
     Y['ngram'] = X['ngram']
-    return X.set_index(['ngram', 'doc_id']), Y.set_index(['ngram'])
+    return bool_to_float(Y.set_index(['ngram']))
 
 
 def train_model(X, Y):
@@ -57,6 +67,7 @@ def train_model(X, Y):
     train classifier within function list, using Cross-Validation, find best F1 and best classifier
     """
     best_F1 = -1
+    classifiers = []
 
     for idx in range(len(func_list)):
         func = func_list[idx]
@@ -64,22 +75,25 @@ def train_model(X, Y):
         print("Using {}. {}".format(idx, func.__name__))
         
         # CV to get the generalization error of classifier
-        Y_pred = cross_val_predict(classifier, X, Y, cv=5)
-        F1 = calculate_PR(Y, Y_pred)
-        #scores = cross_val_score(classifier, X, Y, cv=5)  # not use; should search classifier with highest F1
-        #F1 = scores.mean()
+#         Y_pred = cross_val_predict(classifier, X, Y, cv=5)
+#         F1 = calculate_PR(Y, Y_pred)
+        scores = cross_val_score(classifier, X, Y, scoring='f1', cv=5)  # not use; should search classifier with highest F1
+        F1 = scores.mean()
 
         classifier.fit(X, Y)  # must call .fit() before call .predict()
         print("best_param = {}".format(classifier))
+        
+        classifiers.append(classifier)
         
         if F1 > best_F1:
             best_idx = idx
             best_F1 = F1
             best_classifier = classifier
+        break
 
     print("Training finished: the best classifier is {}. Its best F1 score is {}.\n".format(best_classifier, best_F1))
 
-    return best_classifier
+    return classifiers, best_classifier
 
 def calculate_PR(Y, Y_pred, thres=0.5):
     # calculate the Precision, Recall and F1 values, given prediction and gt label
@@ -114,6 +128,7 @@ def calculate_PR(Y, Y_pred, thres=0.5):
     
         return F1
     except:
+        logging.warning('CANNOT Calculate F1')
         return 0
 
 # post processing
@@ -166,32 +181,52 @@ def test_model(X, Y, best_classifier):
     #Y_pred_after = rule_based_post_processing(Y_pred)
     #calculate_PR(Y, Y_pred_after)
     
-
-def debug():
-    # train
-    X, Y = load_data(path_train_X, path_train_Y)
-#     np.savetxt("train_X.csv", X, delimiter=",")
-#     np.savetxt("train_Y.csv", Y, delimiter=",")
-    X.to_csv("train_X.csv")
-    Y.to_csv("train_Y.csv")
-    test_X, test_Y = load_data(path_test_X, path_test_Y)
-#     np.savetxt("test_X.csv", test_X, delimiter=",")
-#     np.savetxt("test_Y.csv", test_Y, delimiter=",")
-    X.to_csv("test_X.csv")
-    Y.to_csv("test_Y.csv")
-    train_X = X.values
-    train_Y = Y.values
-    best_classifier = train_model(train_X, train_Y)
-
-    # debug
-    debug_X = X.values # load_X(path_debug_X)
-    debug_Y = Y.values # load_Y(path_debug_Y)
-    debug_pred = debug_PQ_set(debug_X, debug_Y, best_classifier)
-    return pd.DataFrame(data=np.hstack[Y.index.values,debug_pred,debug_Y], columns=['ngram','predict', 'gt'])
-
-    # test
+class NameIdentifier(object):
     
-    #test_model(test_X, test_Y, best_classifier)
+    def __init__(self, num_workers=4, from_csv=True, demo=False):
+        if from_csv:
+            self.X, self.Y = load_data("train_X.csv", "train_Y.csv", from_csv=True)
+            self.test_X, self.test_Y = load_data("test_X.csv", "test_Y.csv", from_csv=True)
+        else:
+            path_train_X, path_train_Y, path_test_X, path_test_Y = NameIdentifier.get_path(demo)
+            self.X, self.Y = load_data(path_train_X, path_train_Y, label='train', workers=num_workers)
+            self.test_X, self.test_Y = load_data(path_test_X, path_test_Y, label='test', workers=num_workers)
+        self.classifiers = []
+        self.best_classifier = None
+    
+    @staticmethod
+    def get_path(demo):
+        if not demo:
+            path_train_X = 'data/original/train/'
+            path_train_Y = 'data/labeled/train/'
+            path_test_X = 'data/original/test/'
+            path_test_Y = 'data/labeled/test/'
+        else:
+            path_train_X = 'data/original/t/'
+            path_train_Y = 'data/labeled/t/'
+            path_test_X = 'data/original/t/'
+            path_test_Y = 'data/labeled/t/'
+        return path_train_X, path_train_Y, path_test_X, path_test_Y
+            
+    def train(self):
+        train_X = self.X.values
+        train_Y = np.squeeze(self.Y.values)
+        self.classifiers, self.best_classifier = train_model(train_X, train_Y)
+        
+    def test(self):
+        debug_X = self.test_X.values # load_X(path_debug_X)
+        debug_Y = np.squeeze(self.test_Y.values) # load_Y(path_debug_Y)
+        debug_pred = debug_PQ_set(debug_X, debug_Y, self.best_classifier)
+        return pd.DataFrame(data=np.hstack([self.test_Y.index.values.reshape(-1,1), 
+                                            debug_pred.reshape(-1,1), debug_Y.reshape(-1,1)]), 
+                            columns=['ngram','predict', 'gt']).astype({'ngram': 'object','predict': 'bool','gt':'bool'})
+    def debug(self, X, Y, classifier):
+        debug_X = X.values # load_X(path_debug_X)
+        debug_Y = np.squeeze(Y.values) # load_Y(path_debug_Y)
+        debug_pred = debug_PQ_set(debug_X, debug_Y, classifier)
+        return pd.DataFrame(data=np.hstack([Y.index.values.reshape(-1,1), 
+                                            debug_pred.reshape(-1,1), debug_Y.reshape(-1,1)]), 
+                            columns=['ngram','predict', 'gt']).astype({'ngram': 'object','predict': 'bool','gt':'bool'})
 
 
 if __name__ == "__main__":
@@ -214,7 +249,11 @@ if __name__ == "__main__":
         test_X.to_csv("test_X.csv")
         test_Y.to_csv("test_Y.csv")
     """
-    X, Y = load_data(path_train_X, path_train_Y)
+    path_train_X = 'data/original/train/'
+    path_train_Y = 'data/labeled/train/'
+    path_test_X = 'data/original/test/'
+    path_test_Y = 'data/labeled/test/'
+    X, Y = load_data(path_train_X, path_train_Y, label='train')
     
     train_size = 2500
     train_X = X.values  # exclude n_grams and file_id
@@ -227,7 +266,7 @@ if __name__ == "__main__":
     debug_PQ_set(debug_X, debug_Y, best_classifier)
     
     # test
-    X, Y = load_data(path_test_X, path_test_Y)
+    X, Y = load_data(path_test_X, path_test_Y, label='test')
     test_X = X.values
     test_Y = np.squeeze(Y.values)
     test_model(test_X, test_Y, best_classifier)

@@ -8,11 +8,18 @@ from io import open
 from features import *
 import pandas as pd
 import itertools
+import logging
 from tqdm import tqdm
+from multiprocessing import Pool
+from functools import partial
 #import ipdb
 import string
 import spacy
 import re
+
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
@@ -20,10 +27,10 @@ tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
 class NgramFeature(object):
     def __init__(self, doc_id, ngram, sts_id, span_id, n):
+        self.sts_id = sts_id
         self.features = {
             'doc_id': doc_id,
             'ngram': ngram,
-            'sentence_id': sts_id,
             'span_id': span_id,
             'length': n,
         }
@@ -95,19 +102,26 @@ def find_ngram_index(doc_id, sts_list, comb_len):
     return fobj_list
 
 
-def process_file(txt_name, dir_name):
-    pass
+def process_file(txt_name, dir_name='', comb_len=3):
+    fobj = find_ngram_index(get_doc_id(txt_name), get_sentances(join(dir_name, txt_name)), comb_len)
+    #logger.info('Done processing %s'%txt_name)
+    return fobj
 
 
-def find_ngram_features(dir_name, comb_len=3):
+def find_ngram_features(dir_name, comb_len=3, workers=4):
     dir_name += '/'
     txt_names = [f for f in listdir(dir_name) if isfile(join(dir_name, f))]
+    p = Pool(workers)
     fobj_list = []
-    #sts_list = []
-    for txt_name in tqdm(txt_names):
-        #sts_list += cur_sts_list
-        fobj_list += find_ngram_index(get_doc_id(txt_name), get_sentances(join(dir_name, txt_name)), comb_len)
-        #return find_ngram_index(get_doc_id(txt_name), sts_list, comb_len)
+    with tqdm(total = len(txt_names)) as pbar:
+        for i, fobjs in tqdm(enumerate(p.imap_unordered(partial(process_file, 
+                                                              dir_name=dir_name, 
+                                                              comb_len=comb_len), txt_names))):
+            pbar.update()
+            fobj_list += fobjs
+    #fobj_lists = p.map(partial(process_file, dir_name=dir_name, comb_len=comb_len), txt_names)
+    #fobj_list += find_ngram_index(get_doc_id(txt_name), get_sentances(join(dir_name, txt_name)), comb_len)
+    #return pd.DataFrame(data=[fobj.get_table_row() for fobj_list in fobj_lists for fobj in fobj_list])
     return pd.DataFrame(data=[fobj.get_table_row() for fobj in fobj_list])
         
         
