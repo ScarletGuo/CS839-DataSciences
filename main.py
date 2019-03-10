@@ -5,7 +5,14 @@ from sklearn.model_selection import cross_val_predict, GridSearchCV, cross_val_s
 from extract_gt import *
 import pandas as pd
 import graphviz 
+import logging
 #import ipdb
+
+
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
 
 func_list = [tree.DecisionTreeClassifier, \
             ensemble.RandomForestClassifier, \
@@ -20,19 +27,13 @@ path_train_X = 'data/original/train/'
 path_train_Y = 'data/labeled/train/'
 path_test_X = 'data/original/test/'
 path_test_Y = 'data/labeled/test/'
-"""
-# demo
-path_train_X = 'data/original/t/'
-path_train_Y = 'data/labeled/t/'
-path_test_X = 'data/original/t/'
-path_test_Y = 'data/labeled/t/'
-"""
 
-def str_to_bool(X):
-    for c, t in zip(X.columns.values, X.dtypes):
-        if t == 'object':
-            X[c] = X[c].astype('bool')
-    return X
+# # demo
+# path_train_X = 'data/original/t/'
+# path_train_Y = 'data/labeled/t/'
+# path_test_X = 'data/original/t/'
+# path_test_Y = 'data/labeled/t/'
+
 
 
 def bool_to_float(X):
@@ -42,26 +43,24 @@ def bool_to_float(X):
     return X
 
 
-def load_data(path_X, path_Y, from_csv=False, label='train'):
+def load_data(path_X, path_Y, from_csv=False, label='train', workers=4):
     if from_csv:
-        X = pd.read_csv(path_X, index_col=[0,1])
-        X = str_to_bool(X)
-        Y = pd.read_csv(path_Y, index_col=0)
-        Y = str_to_bool(Y)
+        X = pd.read_csv(path_X, index_col=[0,1], true_values=['True'], false_values=['False'])
+        Y = pd.read_csv(path_Y, index_col=0, true_values=['True'], false_values=['False'])
     else:
-        X = load_X(path_X)
-        Y = load_Y(path_Y, X)
-        X = X.set_index(['ngram', 'doc_id'])
+        X = load_X(path_X, workers)
         X.to_csv(label+'_X.csv')
+        Y = load_Y(path_Y, X)
         Y.to_csv(label+'_Y.csv')
+        X = X.set_index(['ngram', 'doc_id'])
         # X, Y are data frames
         # index for X: (ngram, doc_id)
         # index for Y: ngram
     return X, Y
 
 
-def load_X(path):
-    return bool_to_float(find_ngram_features(path))
+def load_X(path, workers):
+    return bool_to_float(find_ngram_features(path, workers))
 
 
 def load_Y(path, X):
@@ -140,6 +139,7 @@ def calculate_PR(Y, Y_pred, thres=0.5):
     
         return F1
     except:
+        logging.warning('CANNOT Calculate F1')
         return 0
 
 # post processing
@@ -194,13 +194,13 @@ def test_model(X, Y, best_classifier):
     
 class NameIdentifier(object):
     
-    def __init__(self, from_csv=True):
+    def __init__(self, num_workers=4, from_csv=True):
         if from_csv:
-            self.X, self.Y = load_data("train_X.csv", "train_Y.csv", from_csv=True)
-            self.test_X, self.test_Y = load_data("test_X.csv", "test_Y.csv", from_csv=True)
+            self.X, self.Y = load_data("saved_csv/train_X.csv", "saved_csv/train_Y.csv", from_csv=True)
+            self.test_X, self.test_Y = load_data("saved_csv/test_X.csv", "saved_csv/test_Y.csv", from_csv=True)
         else:
-            self.X, self.Y = load_data(path_train_X, path_train_Y, label='train')
-            self.test_X, self.test_Y = load_data(path_test_X, path_test_Y, label='test')
+            self.X, self.Y = load_data(path_train_X, path_train_Y, label='train', workers=num_workers)
+            self.test_X, self.test_Y = load_data(path_test_X, path_test_Y, label='test', workers=num_workers)
         self.classifiers = []
         self.best_classifier = None
             

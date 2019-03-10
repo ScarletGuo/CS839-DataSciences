@@ -1,11 +1,12 @@
 import re
+import numpy as np
 
 
 single_token_feature = ['tag', 'pos', 'dep', 'is_punct', 'is_space', 
                         'is_stop', 'is_alpha', 'ent_type','lemma', 
                         'is_quote', 'lex_id']
 
-prefix = ['king', 'duke', 'lord', 'dowager', 'master']
+prefix = ['king', 'duke', 'lord', 'dowager', 'master', 'prince']
 
 
 def get_span_features(token):
@@ -73,6 +74,8 @@ def get_next(tokens, gram_idx, attr):
     if last_idx+1 >= len(tokens):
         if attr == "text":
             return ""
+        if isinstance(getattr(tokens[last_idx],attr), np.bool_):
+            return True
         return 0
     return getattr(tokens[last_idx+1], attr)
 

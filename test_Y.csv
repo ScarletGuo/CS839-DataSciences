@@ -46,19 +46,26 @@ King,0
 King Hui,0
 Hui,1
 BC,0
+Shuli,0
+Shuli Zi,1
 Zhao,0
 He,0
 Zhao,0
+Zhuang,0
+Zhuang Bao,1
 Lin,0
 Wei,0
 Wei Zhang,1
 Zhang,0
 Chu,0
 Chu,0
+Qu,0
+Qu Gai,1
 Hanzhong,0
 Qin,0
 Shuli,0
 Shuli Zi,1
+Zi,0
 Lord,0
 Lord Yan,0
 Yan,1
@@ -248,6 +255,7 @@ Master Zhang,0
 Master Zhang Lu,0
 Zhang,0
 Zhang Lu,1
+Lu,0
 He,0
 The,0
 Qin,0
@@ -914,6 +922,7 @@ Guo,0
 Yu,0
 Baili,0
 Baili Xi,1
+Xi,0
 He,0
 Yu,0
 Baili,0
@@ -1030,6 +1039,7 @@ I,0
 I,0
 I,0
 Hu,0
+Mo,0
 My,0
 Xu,0
 Xu Jia,1
@@ -1339,9 +1349,11 @@ Duke Wen,0
 Wen,1
 Jin,0
 Qin,0
+Qin,0
 The,0
 Duke,0
 Duke Mu,0
+Mu,1
 I,0
 Qin,0
 Qin,0

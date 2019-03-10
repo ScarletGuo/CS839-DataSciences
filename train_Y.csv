@@ -10,6 +10,7 @@ Mu,1
 Yao,0
 Yellow,0
 Yellow Birds,0
+Birds,0
 King,0
 King Xiaoxiang,0
 Xiaoxiang,1
@@ -39,10 +40,13 @@ King,0
 King Hui,0
 Hui,1
 BC,0
+Shuli,0
+Shuli Zi,1
 Quwo,0
 He,0
 Qin,0
 Dafei,1
+Yu,1
 Emperor,0
 Emperor Shun,0
 Shun,1
@@ -206,6 +210,7 @@ Fei Chang,1
 Chang,0
 China,0
 Yi,1
+Di,1
 Fan,0
 Fan Ju,1
 Ju,0
@@ -283,6 +288,7 @@ Master Zhang,0
 Master Zhang Lu,0
 Zhang,0
 Zhang Lu,1
+Lu,0
 Shuli,0
 Shuli Zi,1
 Zi,0
@@ -315,6 +321,7 @@ Elai,1
 Feilian,1
 Zhou,0
 Shang,0
+Yin,0
 King,0
 King Wu,0
 Wu,1
@@ -527,6 +534,7 @@ Panggao,1
 Taiji,1
 Taiji,1
 Daluo,1
+Daluo,1
 Feizi,1
 Zaofu,1
 Zhao,0
@@ -596,6 +604,7 @@ Qin,0
 Yellow,0
 Yellow River,0
 River,0
+Shangyong,0
 Zhang,0
 Zhang Yi,1
 Yi,0
@@ -626,8 +635,10 @@ Cheng,0
 The,0
 The Shen,0
 Shen,0
+Daluo,0
 Western,0
 Western Rong,0
+Rong,0
 Your,0
 Your Majesty,0
 Majesty,0
@@ -670,6 +681,7 @@ I,0
 I,0
 Gan,0
 Gan Mou,1
+Mou,0
 Yiyang,0
 Gan,0
 Gan Mou,1
@@ -1056,6 +1068,7 @@ Yiyang,0
 Chu,0
 Hann,0
 Qin,0
+Qi,0
 Wei,0
 Gongsun,0
 Gongsun Shi,1
@@ -1134,6 +1147,7 @@ Western Border,0
 Western Border Palace,0
 Border,0
 Border Palace,0
+Palace,0
 Qian,1
 Wei,0
 Zhou,0
@@ -1315,6 +1329,7 @@ Wei,0
 Qi,0
 Duke,0
 Duke Wu,0
+Wu,1
 Pengxi,0
 Mt.,0
 Hua,0
@@ -1807,6 +1822,7 @@ Five Ram,0
 Five Ram Skins,0
 Ram,0
 Ram Skins,0
+Skins,0
 Baili,0
 Baili Xi,1
 Xi,0
@@ -2416,6 +2432,7 @@ I,0
 I,0
 Pass,0
 Jin,0
+Yiwu,1
 He,0
 Qin,0
 Yellow,0
@@ -2466,6 +2483,7 @@ Yan,0
 Qin,0
 Zhao,0
 Yellow,0
+Zhang,0
 Your,0
 Your Majesty,0
 Majesty,0
@@ -2652,6 +2670,8 @@ Zhao,0
 Handan,0
 Ying,1
 Qin,0
+Bai,0
+Bai Qi,1
 Lord,0
 Lord Wuan,0
 Wuan,1
@@ -2736,6 +2756,7 @@ Zichu,1
 Qin,0
 "Zhao,165",0
 Qin,0
+Zhao,0
 Zhao,0
 Zichu,1
 Qin,0
@@ -2900,6 +2921,7 @@ China,0
 Odes,0
 Documents,0
 Rong,0
+Yi,0
 It,0
 King,0
 King Zhaoxiang,0
@@ -2922,6 +2944,7 @@ I,0
 The,0
 The Rong,0
 Rong,0
+Yi,0
 Superiors,0
 No,0
 Duke,0
@@ -3001,6 +3024,8 @@ Qin,0
 He,0
 He,0
 Wei,0
+Gongzi,0
+Gongzi An,0
 Qin,0
 Qin,0
 Lv,0
@@ -3136,6 +3161,8 @@ Zichu,1
 She,0
 Zichu,1
 BC,0
+Duke,0
+Duke Mu,0
 Yong,0
 He,0
 Three,0
