@@ -157,7 +157,7 @@ def test_model(X, Y, best_classifier):
     print("Apply the best classifier on test mode!\n")
     #print("Best classifier is {}".format(best_classifier.__name__))
     print("Best_param : {}".format(best_classifier))
-
+    
     print("Before rule-based postprocessing step:\n")
     Y_pred = best_classifier.predict(X)
     F1 = calculate_PR(Y, Y_pred)
@@ -227,7 +227,9 @@ if __name__ == "__main__":
     debug_PQ_set(debug_X, debug_Y, best_classifier)
     
     # test
-    test_X, test_Y = load_data(path_test_X, path_test_Y)
+    X, Y = load_data(path_test_X, path_test_Y)
+    test_X = X.values
+    test_Y = np.squeeze(Y.values)
     test_model(test_X, test_Y, best_classifier)
 
 
