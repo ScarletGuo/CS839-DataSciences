@@ -1,7 +1,7 @@
 import numpy as np
 from n_grams import find_ngram_features
 from sklearn import linear_model, svm, tree, ensemble, datasets
-from sklearn.model_selection import cross_val_predict, GridSearchCV
+from sklearn.model_selection import cross_val_predict, GridSearchCV, cross_val_score
 from extract_gt import *
 import pandas as pd
 import graphviz 
@@ -64,6 +64,7 @@ def train_model(X, Y):
         # With Cross-Validation
         classifier = func(**func_param[idx])
         Y_pred = cross_val_predict(classifier, X, Y, cv=5)
+        #scores = cross_val_score(classifier, X, Y, cv=5)
         classifier.fit(X, Y)
 
         print("best_param = {}".format(classifier))
@@ -192,19 +193,30 @@ def debug():
 
 if __name__ == "__main__":
     # train
-    X, Y = load_data(path_train_X, path_train_Y)
-    X.to_csv("train_X.csv")
-    Y.to_csv("train_Y.csv")
-    test_X, test_Y = load_data(path_test_X, path_test_Y)
-    X.to_csv("test_X.csv")
-    Y.to_csv("test_Y.csv")
-    train_X = X[:160, :].values
-    train_Y = Y[:160].values
+    from os.path import isfile
+    if isfile("train_X.csv") and isfile("train_Y.csv"):
+        X = pd.read_csv("train_X.csv")
+        Y = pd.read_csv("train_Y.csv")
+    else:
+        X, Y = load_data(path_train_X, path_train_Y)
+        X.to_csv("train_X.csv")
+        Y.to_csv("train_Y.csv")
+
+    if isfile("test_X.csv") and isfile("test_Y.csv"):
+        test_X = pd.read_csv("test_X.csv")
+        test_Y = pd.read_csv("test_Y.csv")
+    else:
+        test_X, test_Y = load_data(path_test_X, path_test_Y)
+        test_X.to_csv("test_X.csv")
+        test_Y.to_csv("test_Y.csv")
+
+    train_X = X.values[:160, 2:]  # exclude n_grams and file_id
+    train_Y = Y.values[:160, 1]  # exclude n_grams
     best_classifier = train_model(train_X, train_Y)
 
     # debug
-    debug_X = X[40:].values # load_X(path_debug_X)
-    debug_Y = Y[40:].values # load_Y(path_debug_Y)
+    debug_X = X.values[40:, 2:]  # exclude n_grams and file_id
+    debug_Y = Y.values[40:, 1]  # exclude n_grams
     debug_PQ_set(debug_X, debug_Y, best_classifier)
 
     # test
