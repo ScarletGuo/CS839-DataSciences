@@ -6,7 +6,7 @@ single_token_feature = ['tag', 'pos', 'dep', 'is_punct', 'is_space',
                         'is_stop', 'is_alpha', 'ent_type','lemma', 
                         'is_quote', 'lex_id']
 
-prefix = ['king', 'duke', 'lord', 'dowager', 'master', 'prince']
+prefix = ['king', 'duke', 'lord', 'dowager', 'master', 'prince', 'emperor', 'lady', 'Long', 'Marquis']
 
 
 def get_span_features(token):
