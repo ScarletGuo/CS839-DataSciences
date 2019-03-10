@@ -5,6 +5,7 @@ from sklearn.model_selection import cross_val_predict, GridSearchCV, cross_val_s
 from extract_gt import *
 import pandas as pd
 import graphviz 
+import ipdb
 
 func_list = [tree.DecisionTreeClassifier, \
             ensemble.RandomForestClassifier, \
@@ -48,7 +49,7 @@ def load_Y(path, X):
     Y = pd.concat(y).to_frame()
     Y.columns = ['gt']
     Y['ngram'] = X['ngram']
-    return X.set_index(['ngram', 'doc_id']), np.squeeze(Y.set_index(['ngram']))
+    return X.set_index(['ngram', 'doc_id']), Y.set_index(['ngram'])
 
 
 def train_model(X, Y):
@@ -59,18 +60,20 @@ def train_model(X, Y):
 
     for idx in range(len(func_list)):
         func = func_list[idx]
+        classifier = func(**func_param[idx])
         print("Using {}. {}".format(idx, func.__name__))
         
-        # With Cross-Validation
-        classifier = func(**func_param[idx])
+        # CV to get the generalization error of classifier
         Y_pred = cross_val_predict(classifier, X, Y, cv=5)
-        #scores = cross_val_score(classifier, X, Y, cv=5)
-        classifier.fit(X, Y)
-
-        print("best_param = {}".format(classifier))
         F1 = calculate_PR(Y, Y_pred)
+        #scores = cross_val_score(classifier, X, Y, cv=5)  # not use; should search classifier with highest F1
+        #F1 = scores.mean()
+
+        classifier.fit(X, Y)  # must call .fit() before call .predict()
+        print("best_param = {}".format(classifier))
         
         if F1 > best_F1:
+            best_idx = idx
             best_F1 = F1
             best_classifier = classifier
 
@@ -176,15 +179,15 @@ def debug():
 #     np.savetxt("test_Y.csv", test_Y, delimiter=",")
     X.to_csv("test_X.csv")
     Y.to_csv("test_Y.csv")
-    train_X = X[:160, :].values
-    train_Y = Y[:160].values
+    train_X = X.values
+    train_Y = Y.values
     best_classifier = train_model(train_X, train_Y)
 
     # debug
-    debug_X = X[40:].values # load_X(path_debug_X)
-    debug_Y = Y[40:].values # load_Y(path_debug_Y)
+    debug_X = X.values # load_X(path_debug_X)
+    debug_Y = Y.values # load_Y(path_debug_Y)
     debug_pred = debug_PQ_set(debug_X, debug_Y, best_classifier)
-    return pd.DataFrame(data=np.hstack[Y[40:].index.values,debug_pred,debug_Y], columns=['ngram','predict', 'gt'])
+    return pd.DataFrame(data=np.hstack[Y.index.values,debug_pred,debug_Y], columns=['ngram','predict', 'gt'])
 
     # test
     
@@ -194,6 +197,7 @@ def debug():
 if __name__ == "__main__":
     # train
     from os.path import isfile
+    """
     if isfile("train_X.csv") and isfile("train_Y.csv"):
         X = pd.read_csv("train_X.csv")
         Y = pd.read_csv("train_Y.csv")
@@ -209,18 +213,21 @@ if __name__ == "__main__":
         test_X, test_Y = load_data(path_test_X, path_test_Y)
         test_X.to_csv("test_X.csv")
         test_Y.to_csv("test_Y.csv")
-
-    train_X = X.values[:160, 2:]  # exclude n_grams and file_id
-    train_Y = Y.values[:160, 1]  # exclude n_grams
+    """
+    X, Y = load_data(path_train_X, path_train_Y)
+    
+    train_size = 2500
+    train_X = X.values  # exclude n_grams and file_id
+    train_Y = np.squeeze(Y.values) # exclude n_grams
     best_classifier = train_model(train_X, train_Y)
 
     # debug
-    debug_X = X.values[40:, 2:]  # exclude n_grams and file_id
-    debug_Y = Y.values[40:, 1]  # exclude n_grams
+    debug_X = X.values  # exclude n_grams and file_id
+    debug_Y = np.squeeze(Y.values) # exclude n_grams
     debug_PQ_set(debug_X, debug_Y, best_classifier)
-
-    # test
     
+    # test
+    test_X, test_Y = load_data(path_test_X, path_test_Y)
     test_model(test_X, test_Y, best_classifier)
 
 
