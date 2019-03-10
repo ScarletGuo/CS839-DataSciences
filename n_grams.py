@@ -26,11 +26,12 @@ tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
 
 class NgramFeature(object):
-    def __init__(self, doc_id, ngram, sts_id, span_id, n):
+    def __init__(self, doc_id, ngram, span, sts_id, span_id, n):
         self.sts_id = sts_id
         self.features = {
             'doc_id': doc_id,
             'ngram': ngram,
+            'span': span,
             'span_id': span_id,
             'length': n,
         }
@@ -86,7 +87,7 @@ def find_ngram_index(doc_id, sts_list, comb_len):
                 # filter
                 if filtering(gram, doc_id):
                     continue
-                ngram_fobj = NgramFeature(doc_id, " ".join(gram), sts_id, span_id, len(gram))
+                ngram_fobj = NgramFeature(doc_id, " ".join(gram), span_txt, sts_id, span_id, len(gram))
                 # add features of the gram
                 ngram_fobj.add_features(get_features(tokens_in_sts, tokens_in_gram, gram_idx, 
                                                      gram, cur_sts, span_txt))

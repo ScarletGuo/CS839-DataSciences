@@ -35,13 +35,13 @@ def bool_to_float(X):
 
 def load_data(path_X, path_Y, from_csv=False, label='train', workers=4):
     if from_csv:
-        X = pd.read_csv(path_X, index_col=['ngram','doc_id'], true_values=['True'], false_values=['False'])
+        X = pd.read_csv(path_X, index_col=['ngram','doc_id', 'span'], true_values=['True'], false_values=['False'])
         Y = pd.read_csv(path_Y, index_col=0, true_values=['True'], false_values=['False'])
     else:
         X = load_X(path_X, workers)
         Y = load_Y(path_Y, X)
         Y.to_csv(label+'_Y.csv')
-        X = X.set_index(['ngram', 'doc_id'])
+        X = bool_to_float(X.set_index(['ngram', 'doc_id', 'span']))
         X.to_csv(label+'_X.csv')
         # X, Y are data frames
         # index for X: (ngram, doc_id)
@@ -50,7 +50,7 @@ def load_data(path_X, path_Y, from_csv=False, label='train', workers=4):
 
 
 def load_X(path, workers):
-    return bool_to_float(find_ngram_features(path, workers))
+    return find_ngram_features(path, workers)
 
 
 def load_Y(path, X):
@@ -61,6 +61,7 @@ def load_Y(path, X):
     Y = pd.concat(y).to_frame()
     Y.columns = ['gt']
     Y['ngram'] = X['ngram']
+    Y = Y.sort_index()
     return Y.set_index(['ngram'])
 
 
@@ -218,10 +219,11 @@ class NameIdentifier(object):
     def get_debug_df(X_df, Y_df, pred, Y):
         df = pd.DataFrame(data=np.hstack([Y_df.index.values.reshape(-1,1), 
                                           X_df.reset_index().doc_id.values.reshape(-1,1), 
+                                          X_df.reset_index().span.values.reshape(-1,1), 
                                           pred.reshape(-1,1), 
                                           Y.reshape(-1,1)]), 
-                                          columns=['ngram', 'doc_id', 'predict',  'gt']).astype(
-                                          {'ngram': 'object', 'doc_id': 'int64', 
+                                          columns=['ngram', 'doc_id', 'span', 'predict', 'gt']).astype(
+                                          {'ngram': 'object', 'doc_id': 'int64', 'span': 'object',
                                            'predict': 'bool','gt':'bool'})
         return df
         

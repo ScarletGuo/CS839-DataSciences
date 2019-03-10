@@ -1,0 +1,1570 @@
+ngram,gt
+Shuli,False
+Shuli Zi,True
+Zi,False
+Ji,True
+King,False
+King Hui,False
+Hui,True
+Qin,False
+Hann,False
+Shuli,False
+Shuli Zi,True
+Zi,False
+Qin,False
+The,False
+Qin,False
+Emperor,False
+Emperor Zhuan,False
+Emperor Zhuan Xu,False
+Zhuan,False
+Zhuan Xu,True
+Xu,False
+Zhuan,False
+Zhuan Xu,True
+Xu,False
+Nvxiu,True
+Nvxiu,True
+Daye,True
+Daye,True
+Shao,False
+Shao Dian,False
+Dian,False
+Nvhua,False
+Dafei,True
+Fan,False
+Fan Ju,True
+Ju,False
+Shu,True
+Wei,False
+Wei,False
+Wei,False
+Xu,False
+Xu Jia,True
+Jia,False
+King,False
+King Hui,False
+Hui,True
+BC,False
+Shuli,False
+Shuli Zi,True
+Zhao,False
+He,False
+Zhao,False
+Zhuang,False
+Zhuang Bao,True
+Lin,False
+Wei,False
+Wei Zhang,True
+Zhang,False
+Chu,False
+Chu,False
+Qu,False
+Qu Gai,True
+Hanzhong,False
+Qin,False
+Shuli,False
+Shuli Zi,True
+Zi,False
+Lord,False
+Lord Yan,False
+Yan,True
+King,False
+King Hui,False
+Hui,True
+Qin,False
+King,False
+King Wu,False
+Wu,True
+BC,False
+Zhang,False
+Zhang Yi,True
+Yi,False
+Wei,False
+Wei Zhang,True
+Zhang,False
+Shuli,False
+Shuli Zi,True
+Zi,False
+Gan,False
+Gan Mou,True
+Mou,False
+Qin,False
+Gan,False
+Gan Mou,True
+Mou,False
+Hann,False
+Yiyang,False
+Shuli,False
+Shuli Zi,True
+Zi,False
+Zhou,False
+The,False
+The Zhou,False
+Zhou,False
+Emperor,False
+Emperor Shun,False
+Shun,True
+You,False
+Yu,True
+You,False
+Your,False
+He,False
+Yao,False
+Dafei,True
+Shun,True
+Boyi,True
+Shun,True
+Ying,True
+Dalian,False
+Mengxi,True
+Zhongyan,True
+Zhongyan,True
+Emperor,False
+Emperor Taiwu,False
+Taiwu,True
+Wang,False
+Wang Ji,True
+Ji,False
+Zheng,False
+Zheng Anping,True
+Anping,False
+Zhang,False
+Zhang Lu,True
+Lu,False
+Wang,False
+Wang Ji,True
+Ji,False
+They,False
+Wang,False
+Wang Ji,True
+Ji,False
+Fan,False
+Fan Ju,True
+Ju,False
+Fan,False
+Fan Ju,True
+Ju,False
+Wang,False
+Wang Ji,True
+Ji,False
+Wei,False
+Fan,False
+Fan Ju,True
+Ju,False
+Qin,False
+The,False
+Pu,False
+We,False
+Qin,False
+Wey,False
+They,False
+Hu,False
+Qin,False
+Fan,False
+Fan Ju,True
+Ju,False
+Who,False
+Gan,False
+Gan Mou,True
+Mou,False
+Xiacai,False
+Chu,False
+He,False
+Master,False
+Master Shi,False
+Master Shi Ju,False
+Shi,False
+Shi Ju,True
+Ju,False
+Xiacai,False
+He,False
+Zhang,False
+Zhang Yi,True
+Yi,False
+Shuli,False
+Shuli Zi,True
+Zi,False
+King,False
+King Hui,False
+Hui,True
+Qin,False
+The,False
+Wei,False
+Wei Zhang,True
+Zhang,False
+Hanzhong,False
+Wang,True
+They,False
+They,False
+I,False
+Wang,False
+Wang Ji,True
+Ji,False
+The,False
+Xiang,False
+Xiang Shou,True
+Shou,False
+King,False
+King Wu,False
+Wu,True
+The,False
+Xirang,False
+Gan,False
+Gan Mou,True
+Mou,False
+Gan,False
+Gan Mou,True
+Mou,False
+Gan,False
+Gan Mou,True
+Mou,False
+Yiyang,False
+Shangdang,False
+Nanyang,False
+Your,False
+Your Majesty,False
+Majesty,False
+King,False
+King Xiao,False
+Xiao,True
+Feizi,True
+Daluo,True
+Marquis,False
+Marquis Shen,False
+Shen,True
+Daluo,True
+The,False
+Fan,False
+Fan Ju,True
+Ju,False
+Wang,False
+Wang Ji,True
+Ji,False
+Fan,False
+Fan Ju,True
+Ju,False
+Xianyang,False
+Wang,False
+Wang Ji,True
+Ji,False
+Qin,False
+Wei,False
+Master,False
+Master Zhang,False
+Master Zhang Lu,False
+Zhang,False
+Zhang Lu,True
+Lu,False
+He,False
+The,False
+Qin,False
+I,False
+I,False
+King,False
+King Zhaoxiang,False
+Zhaoxiang,True
+BC,False
+Chu,False
+Yan,False
+Ying,True
+King,False
+King Huai,False
+Huai,True
+Chu,False
+Qin,False
+Qin,False
+Qi,False
+King,False
+King Min,False
+Min,True
+Qi,False
+Qin,False
+Three,False
+Three Jin,False
+Jin,False
+Hann,False
+Wei,False
+Zhao,False
+I,False
+Gan,False
+Gan Mou,True
+Mou,False
+Gan,False
+Gan Mou,True
+Mou,False
+Yiyang,False
+King,False
+King Xiang,False
+Xiang,False
+Hann,False
+Gongzhong,False
+Gongzhong Chi,True
+Chi,False
+Qin,False
+Qin,False
+King,False
+King Wu,False
+Wu,True
+Zhou,False
+He,False
+King,False
+King Zhaoxiang,False
+Zhaoxiang,True
+The,False
+The Western,False
+The Western Rong,False
+Western,False
+Western Rong,False
+Rong,False
+Daluo,True
+Dog,False
+Dog Hill,False
+Hill,False
+King,False
+King Xuan,False
+Xuan,True
+Zhou,False
+Qin,False
+Qin Zhong,True
+Zhong,False
+Western,False
+Western Rong,False
+Rong,False
+Qin,False
+Qin Zhong,True
+Zhong,False
+Rong,False
+Words,False
+I,False
+I,False
+I,False
+I,False
+Your,False
+Your Majesty,False
+Majesty,False
+I,False
+I,False
+Your,False
+Your Majesty,False
+Majesty,False
+I,False
+I,False
+I,False
+King,False
+King Zhaoxiang,False
+Zhaoxiang,True
+Wang,False
+Wang Ji,True
+Ji,False
+Fan,False
+Fan Ju,True
+Ju,False
+Fan,False
+Fan Ju,True
+Ju,False
+Fan,False
+Fan Ju,True
+Ju,False
+The,False
+The King,False
+King,False
+King,False
+King Zhaoxiang,False
+Zhaoxiang,True
+Chu,False
+Hann,False
+Gongzhong,False
+Gongzhong Chi,True
+Chi,False
+Gan,False
+Gan Mou,True
+Mou,False
+Hann,False
+Qin,False
+Gan,False
+Gan Mou,True
+Mou,False
+King,False
+King Zhaoxiang,False
+Zhaoxiang,True
+Gongzhong,False
+Gongzhong Chi,True
+Chi,False
+Qin,False
+Hann,False
+Chu,False
+Hann,False
+Yongshi,False
+Qin,False
+Yao,False
+Yao Pass,False
+Pass,False
+Gongzhong,False
+Gongzhong Chi,True
+Chi,False
+Hann,False
+Gongshu,True
+Hann,False
+Chu,False
+Chu,False
+Hann,False
+Wei,False
+Qin,False
+Fan,False
+Fan Ju,True
+Ju,False
+Qin,False
+I,False
+Qin,False
+Queen,False
+Queen Dowager,False
+Dowager,False
+Rang,True
+He,False
+King,False
+King Zhaoxiang,False
+Zhaoxiang,True
+King,False
+King Zhaoxiang,False
+Zhaoxiang,True
+Fan,False
+Fan Ju,True
+Ju,False
+Fan,False
+Fan Ju,True
+Ju,False
+I,False
+I,False
+Yiqu,False
+Queen,False
+Queen Dowager,False
+Dowager,False
+Xiang,False
+Xiang Shou,True
+Shou,False
+Chu,False
+Chu,False
+Qin,False
+Xiang,False
+Xiang Shou,True
+Shou,False
+Xiang,False
+Xiang Shou,True
+Shou,False
+Yiyang,False
+Qin,False
+Hann,False
+Gongzhong,False
+Gongzhong Chi,True
+Chi,False
+Hann,False
+Su,False
+Su Dai,False
+Dai,False
+Xiang,False
+Xiang Shou,True
+Shou,False
+An,False
+Hann,False
+Gongzhong,False
+Gongzhong Chi,True
+Chi,False
+Gongzhong,False
+Gongzhong Chi,True
+Chi,False
+Qin,False
+Qin,False
+Rong,False
+I,False
+He,False
+Rong,False
+Duke,False
+Duke Xiang,False
+Xiang,True
+Duke,False
+Duke Xiang,False
+Xiang,True
+Yiqu,False
+I,False
+I,False
+I,False
+Su,False
+Su Dai,True
+Dai,False
+I,False
+People,False
+Qin,False
+Gongsun,False
+Gongsun Shi,True
+Shi,False
+Gan,False
+Gan Mou,True
+Mou,False
+Qin,False
+Gongsun,False
+Gongsun Shi,True
+Shi,False
+Hann,False
+Gan,False
+Gan Mou,True
+Mou,False
+Wei,False
+I,False
+I,False
+Xiang,False
+Xiang Shou,True
+Shou,False
+Wusui,False
+Hann,False
+Su,False
+Su Dai,True
+Dai,False
+Qin,False
+Chu,False
+Yingchuan,False
+Hann,False
+Hann,False
+Chu,False
+Chu,False
+Hann,False
+Chu,False
+Hann,False
+Qin,False
+Qin,False
+Chu,False
+Chu,False
+Hann,False
+Qin,False
+Fan,False
+Fan Ju,True
+Ju,False
+Qin,False
+It,False
+I,False
+I,False
+I,False
+I,False
+Your,False
+Your Majesty,False
+Majesty,False
+I,False
+Sages,False
+Five,False
+Five Emperors,False
+Emperors,False
+Three,False
+Three Dynasties,False
+Dynasties,False
+Five,False
+Five Hegemons,False
+Hegemons,False
+Wu,False
+Wu Huo,True
+Huo,False
+Ren,False
+Ren Bi,True
+Bi,False
+Cheng,False
+Cheng Jing,True
+Jing,False
+Meng,False
+Meng Ben,True
+Ben,False
+Prince,False
+Prince Qingji,False
+Qingji,True
+Xia,False
+Xia Yu,True
+Yu,False
+Death,False
+I,False
+Qin,False
+Su,False
+Su Dai,True
+Dai,False
+Qin,False
+Qin,False
+Gan,False
+Gan Mou,True
+Mou,False
+Qin,False
+Yao,False
+Yao Pass,False
+Pass,False
+Devil,False
+Devil Valley,False
+Valley,False
+Qi,False
+Hann,False
+Wei,False
+Qin,False
+Qin,False
+Wu,False
+Wu Zixu,True
+Zixu,False
+Zhao,False
+Zhao Pass,False
+Pass,False
+Ling,False
+Ling River,False
+River,False
+He,False
+Wu,False
+Wu,False
+King,False
+King Helv,False
+Helv,True
+I,False
+Wu,False
+Wu Zixu,True
+Zixu,False
+I,False
+Su,False
+Su Dai,True
+Dai,False
+Your,False
+Your Majesty,False
+Majesty,False
+Acacia,False
+Acacia Valley,False
+Valley,False
+Duke,False
+Duke Ning,False
+Ning,True
+Pingyang,False
+He,False
+Dangshe,False
+Hao,True
+Dangshe,False
+Hao,True
+Rong,False
+Dangshe,False
+Hui,True
+Lu,False
+Duke,False
+Duke Yin,False
+Yin,True
+Duke,False
+Duke Ning,False
+Ning,True
+Dang,False
+Duke,False
+Duke Ning,False
+Ning,True
+Western,False
+Western Mountain,False
+Mountain,False
+Queen,False
+Queen Dowager,False
+Dowager,False
+I,False
+Fan,False
+Fan Ju,True
+Ju,False
+Qin,False
+Fan,False
+Fan Ju,True
+Ju,False
+Your,False
+Your Majesty,False
+Majesty,False
+Sweet,False
+Sweet Springs,False
+Springs,False
+Valley,False
+Valley Mouth,False
+Mouth,False
+Long,False
+Shu,False
+Hangu,False
+Hangu Pass,False
+Pass,False
+Shang,False
+Slope.151,False
+It,False
+Your,False
+Qin,False
+Hanlu,False
+Qin,False
+Su,False
+Su Dai,True
+Dai,False
+King,False
+King Min,False
+Min,False
+Qi,False
+Gan,False
+Gan Mou,True
+Mou,False
+Qin,False
+Qin,False
+Gan,False
+Gan Mou,True
+Mou,False
+I,False
+Duke,False
+Duke Ning,False
+Ning,True
+Fuji,False
+Weilei,False
+Sanfu,True
+Chuzi,True
+Chuzi,True
+Sanfu,True
+Chuzi,True
+Chuzi,True
+Sanfu,True
+Duke,False
+Duke Wu,False
+Wu,True
+Gan,False
+Gan Mou,True
+Mou,False
+Qi,False
+Qin,False
+Gan,False
+Gan Mou,True
+Mou,False
+Qi,False
+Wu,True
+Rong,False
+Gui,True
+Ji,True
+Du,False
+Zheng,False
+Xiaoguo,True
+Fan,False
+Fan Ju,True
+Ju,False
+The,False
+I,False
+He,False
+Fan,False
+Fan Ju,True
+Ju,False
+Fan,False
+Fan Ju,True
+Ju,False
+Wan,False
+Wei,False
+Huai,True
+Xingqiu,True
+The,False
+Fan,False
+Fan Ju,True
+Ju,False
+King,False
+King Zhaoxiang,False
+Zhaoxiang,True
+The,False
+Qin,False
+Hann,False
+Hann,False
+Qin,False
+Qin,False
+Hann,False
+Your,False
+Your Majesty,False
+Majesty,False
+Hann,False
+That,False
+Fan,False
+Fan Yuan,True
+Yuan,False
+King,False
+King Zhaoxiang,False
+Zhaoxiang,True
+I,False
+Hann,False
+Hann,False
+I,False
+Fan,False
+Fan Ju,True
+Ju,False
+Hann,False
+Xingyang,True
+Gong,False
+Chenggao,False
+Taihang,False
+Taihang Mountains,False
+Mountains,False
+Shangdang,False
+Xingyang,True
+Hann,False
+Hann,False
+Hann,False
+Hann,False
+Fan,False
+Fan Ju,True
+Ju,False
+I,False
+I,False
+Tian,False
+Tian Wen,False
+Wen,True
+Qi,False
+I,False
+Qi,False
+I,False
+Queen,False
+Queen Dowager,False
+Dowager,False
+Rang,True
+Huayang,True
+Gaoling,True
+Jingyang,True
+Qin,False
+I,False
+Qin,False
+Duke,False
+Duke De,False
+De,True
+Your,False
+Your Majesty,False
+Majesty,False
+Yue,False
+Qi,False
+It,False
+Qin,False
+Xiang,False
+Xiang Shou,True
+Shou,False
+Xiang,False
+Xiang Shou,True
+Shou,False
+Qin,False
+Your,False
+Your Majesty,False
+Majesty,False
+Xiang,False
+Xiang Shou,True
+Shou,False
+Qin,False
+Chu,False
+Duke,False
+Duke Cheng,False
+Cheng,True
+Liang,True
+Rui,True
+Qin,False
+Qin Court,False
+Court,False
+Duke,False
+Duke Huan,False
+Huan,True
+Qi,False
+Mountain,False
+Mountain Rong,False
+Rong,False
+Guzhu,False
+Duke,False
+Duke Cheng,False
+Cheng,True
+He,False
+Duke,False
+Duke Cheng,False
+Cheng,True
+Duke,False
+Duke Mu,False
+Mu,True
+Gan,False
+Gan Mou,True
+Mou,False
+Gan,False
+Gan Mou,True
+Mou,False
+Lv,False
+Lv Buwei,True
+Buwei,False
+Wenxin,False
+Qin,False
+The,False
+The First,False
+The First Emperor,False
+First,False
+First Emperor,False
+Emperor,False
+Qin,False
+Cai,False
+Cai Ze,True
+Ze,False
+Gangcheng,False
+Yan,False
+King,False
+King Xi,False
+Xi,True
+Yan,False
+Qin,False
+Qin,False
+Zhang,False
+Zhang Tang,True
+Tang,False
+Yan,False
+Yan,False
+Qin,False
+Zhao,False
+Yellow,False
+Yellow River,False
+River,False
+Zhang,False
+Zhang River,False
+River,False
+Duke,False
+Duke Mu,False
+Mu,True
+Duke,False
+Duke Xian,False
+Xian,True
+Jin,False
+Yu,False
+Guo,False
+Yu,False
+Baili,False
+Baili Xi,True
+Xi,False
+He,False
+Yu,False
+Baili,False
+Baili Xi,True
+Xi,False
+Qin,False
+Duke,False
+Duke Mu,False
+Mu,True
+Wei,False
+Qin,False
+Hann,False
+Wei,False
+Fan,False
+Fan Ju,True
+Ju,False
+Qin,False
+Fan,False
+Fan Ju,True
+Ju,False
+Xu,False
+Xu Jia,True
+Jia,False
+Xu,False
+Xu Jia,True
+Jia,False
+Shu,False
+Xu,False
+Xu Jia,True
+Jia,False
+I,False
+I,False
+Fan,False
+Fan Ju,True
+Ju,False
+I,False
+I,False
+Fan,False
+Fan Ju,True
+Ju,False
+Xu,False
+Xu Jia,True
+Jia,False
+Qin,False
+Xu,False
+Xu Jia,True
+Jia,False
+Yiwu,True
+Qin,False
+Qin,False
+Jin,False
+Duke,False
+Duke Mu,False
+Mu,True
+Baili,False
+Baili Xi,True
+Xi,False
+Yiwu,True
+Jin,False
+Fan,False
+Fan Shu,True
+Shu,False
+The,False
+Xu,False
+Xu Jia,True
+Jia,False
+Lord,False
+Lord Zhang,False
+Zhang,True
+Gan,False
+Gan Luo,True
+Luo,False
+Qin,False
+Ying135,False
+Wenxin,False
+Pi,False
+Pi Zheng,True
+Zheng,False
+Duke,False
+Duke Mu,False
+Mu,True
+The,False
+Jin,False
+Yiwu,True
+The,False
+Chonger,True
+Qin,False
+Li,False
+Li Ke,True
+Ke,False
+Lv,True
+Lv Sheng,True
+Sheng,False
+Xi,True
+Xi Rui,True
+Rui,False
+I,False
+Lv,True
+Xi,True
+Chonger,True
+Jin,False
+Xu,False
+Xu Jia,True
+Jia,False
+Fan,False
+Fan Ju,True
+Ju,False
+Xu,False
+Xu Jia,True
+Jia,False
+I,False
+I,False
+I,False
+I,False
+I,False
+Hu,False
+Mo,False
+My,False
+Xu,False
+Xu Jia,True
+Jia,False
+Fan,False
+Fan Ju,True
+Ju,False
+King,False
+King Zhaoxiang,False
+Zhaoxiang,True
+Xu,False
+Xu Jia,True
+Jia,False
+Wei,False
+Xu,False
+Xu Jia,True
+Jia,False
+Wei,False
+Wei,False
+Wei Qi,True
+Qi,False
+Wei,False
+Wei Qi,True
+Qi,False
+Zhao,False
+Lord,False
+Lord Pingyuan,False
+Pingyuan,True
+Zhao,False
+Lv,False
+Lv Buwei,True
+Buwei,False
+First,False
+First Emperor,False
+Emperor,False
+The,False
+Gan,False
+Gan Mou,True
+Mou,False
+He,False
+Zhang,False
+Zhang Tang,True
+Tang,False
+Yan,False
+Gan,False
+Gan Luo,True
+Luo,False
+I,False
+Zhao,False
+Zhao,False
+Duke,False
+Duke Mu,False
+Mu,True
+It,False
+Mt.,False
+Qi,False
+The,False
+The Qin,False
+Qin,False
+Duke,False
+Duke Mu,False
+Mu,True
+A,False
+I,False
+He,False
+Qin,False
+Jin,False
+They,False
+Duke,False
+Duke Mu,False
+Mu,True
+Jin,False
+Qin,False
+King,False
+King Zhaoxiang,False
+Zhaoxiang,True
+Wang,False
+Wang Ji,True
+Ji,False
+Hedong,False
+Fan,False
+Fan Ju,True
+Ju,False
+Zheng,False
+Zheng Anping,True
+Anping,False
+Fan,False
+Fan Ju,True
+Ju,False
+Wei,False
+Fan,False
+Fan Ju,True
+Ju,False
+Persons,False
+Duke,False
+Duke Mu,False
+Mu,True
+Yiwu,True
+Jin,False
+I,False
+I,False
+Your,False
+Your Majesty,False
+Majesty,False
+Zhang,False
+Zhang Tang,True
+Tang,False
+Yan,False
+Long,False
+Long Pingyuan,False
+Pingyuan,True
+Wei,False
+Wei Qi,True
+Qi,False
+I,False
+Duke,False
+Duke Mu,False
+Mu,True
+Duke,False
+Duke Huan,False
+Huan,True
+Qi,False
+Qin,False
+Liang,False
+Rui,False
+King,False
+King Zhaoxiang,False
+Zhaoxiang,True
+Zhao,False
+Your,False
+Qin,False
+Wei,False
+Wei Qi,True
+Qi,False
+Lord,False
+Lord Fan,False
+Fan,False
+Lord,False
+Lord Pingyuan,False
+Pingyuan,True
+Zhao,False
+You,False
+Wei,False
+Wei Qi,True
+Qi,False
+I,False
+Zhao,False
+I,False
+Hangu,False
+Hangu Pass,False
+Pass,False
+King,False
+King Xiaocheng,False
+Xiaocheng,True
+Zhao,False
+Lord,False
+Lord Pingyuan,False
+Pingyuan,True
+Wei,False
+Wei Qi,True
+Qi,False
+Zhao,False
+Yu,False
+Yu Qing,True
+Qing,False
+Yu,False
+Yu Qing,True
+Qing,False
+Zhao,False
+Zhao,False
+Wei,False
+Wei Qi,True
+Qi,False
+Shuli,False
+Shuli Zi,True
+Zi,False
+Qin,False
+Gan,False
+Gan Mou,True
+Mou,False
+Xiacai,False
+Qi,False
+Chu,False
+Gan,False
+Gan Luo,True
+Luo,False
+Warring,False
+Warring States,False
+States,False
+Qin,False
+Duke,False
+Duke Mu,False
+Mu,True
+Duke,False
+Duke Wen,False
+Wen,True
+Jin,False
+Chu,False
+Chengpu,False
+Lord,False
+Lord Xinling,False
+Xinling,True
+Wei,False
+Wei Qi,True
+Qi,False
+Lord,False
+Lord Xinling,False
+Xinling,True
+The,False
+Zhao,False
+Wei,False
+Wei Qi,True
+Qi,False
+Qin,False
+King,False
+King Zhaoxiang,False
+Zhaoxiang,True
+Qin,False
+Lord,False
+Lord Pingyuan,False
+Pingyuan,True
+Zhao,False
+Duke,False
+Duke Mu,False
+Mu,True
+Duke,False
+Duke Wen,False
+Wen,True
+Jin,False
+Zheng,False
+Zheng,False
+Duke,False
+Duke Mu,False
+Mu,True
+Zheng,False
+Jin,False
+Jin,False
+Qin,False
+The,False
+Jin,False
+Qin,False
+Duke,False
+Duke Mu,False
+Mu,True
+Qin,False
+Jin,False
+Duke,False
+Duke Mu,False
+Mu,True
+Duke,False
+Duke Wen,False
+Wen,True
+Jin,False
+Some,False
+Zheng,False
+Zheng,False
+Jin,False
+We,False
+Zheng,False
+Qin,False
+Zheng,False
+Zheng Anping,True
+Anping,False
+Fan,False
+Fan Ju,True
+Ju,False
+Wei,False
+Zhao,False
+Zheng,False
+Zheng Anping,True
+Anping,False
+Zhao,False
+Zhao,False
+Fan,False
+Fan Ju,True
+Ju,False
+Ying,True
+Qin,False
+It,False
+Ying,True
+Lv,False
+Lv Buwei,True
+Buwei,False
+Handan,False
+Zhao,False
+King,False
+King Zhaoxiang,False
+Zhaoxiang,True
+I,False
+Chu,False
+I,False
+Chu,False
+Qin,False
+Lord,False
+Lord Wuan,False
+Wuan,True
+Zheng,False
+Zheng Anping,True
+Anping,False
+I,False
+He,False
+Zichu,True
+I,False
+The,False
+Duke,False
+Duke Wen,False
+Wen,True
+Jin,False
+Qin,False
+Qin,False
+The,False
+Duke,False
+Duke Mu,False
+Mu,True
+I,False
+Qin,False
+Qin,False
+The,False
+The Jin,False
+Jin,False
+Qin,False
+Duke,False
+Duke Mu,False
+Mu,True
+I,False
+Baili,False
+Baili Xi,True
+Xi,False
+Jian,False
+Jian Shu,True
+Shu,False
+What,False
+I,False
+He,False
+The,False
+Rong,False
+You,False
+Yu,False
+Qin,False
+You,False
+You Yu,True
+Yu,False
+Jin,False
+Jin,False
+Rong,False
+You,False
+You Yu,True
+Yu,False
+Jin,False
+The,False
+The Rong,False
+Rong,False
+Duke,False
+Duke Mu,False
+Mu,True
+You,False
+You Yu,True
+Yu,False
+Qin,False
+Tang,False
+Tang Ju,True
+Ju,False
+Cai,False
+Cai Ze,True
+Ze,False
+Later,False
+Later Cai,False
+Later Cai Ze,False
+Cai,False
+Cai Ze,True
+Ze,False
+I,False
+Cai,False
+Cai Ze,True
+Ze,False
+Zhao,False
+He,False
+Hann,False
+Wei,False
+He,False
+Ying,True
+Zheng,False
+Zheng Anping,True
+Anping,False
+Wang,False
+Wang Ji,True
+Ji,False
+Qin,False
+Ying,True
+Cai,False
+Cai Ze,True
+Ze,False
+Qin,False
+Zichu,True
+I,False
+You,False
+You Yu,True
+Yu,False
+It,False
+China,False
+Yellow,False
+Yellow Emperor,False
+Emperor,False
+Lv,False
+Lv Buwei,True
+Buwei,False
+You,False
+You,False
+I,False
+I,False
+Qin,False
+I,False
+Lord,False
+Lord Anguo,False
+Anguo,True
+Lady,False
+Lady Huayang,False
+Huayang,True
+Cai,False
+Cai Ze,True
+Ze,False
+Cai,False
+Cai Ze,True
+Ze,False
+Way,False
+Lv,False
+Lv Buwei,True
+Buwei,False
+Zichu,True
+Qin,False
+Duke,False
+Duke Mu,False
+Mu,True
+You,False
+You Yu,True
+Yu,False
+Rong,False
+Rong,False
+The,False
+The Rong,False
+Rong,False
+Qin,False
+You,False
+Yu,False
+Lady,False
+Lady Huayang,False
+Huayang,True
+Lady,False
+Lady Huayang,False
+Huayang,True
+He,False
+Her,False
+Her Ladyship,False
+Ladyship,False
+Heaven,False
+Lady,False
+Lady Huayang,False
+Huayang,True
+Lady,False
+Lady Huayang,False
+Huayang,True
+Wu,False
+Wu Qi,True
+Qi,False
+King,False
+King Dao,False
+Dao,True
+Chu,False
+His,False
+Danger,False
+Lady,False
+Lady Huayang,False
+Huayang,True
+Zichu,True
+Zhao,False
+I,False
+I,False
+Zichu,True
+I,False
+Duke,False
+Duke Mu,False
+Mu,True
+You,False
+You Yu,True
+Yu,False
+Rong,False
+Western,False
+Western Rong,False
+Rong,False
+The,False
+The Son,False
+Son,False
+Heaven,False
+Guo,False
+Duke,False
+Shao,False
+Duke,False
+Duke Mu,False
+Mu,True
+Wei,False
+Wei Zi,True
+Zi,False
+Confucius,False
+Guan,False
+Guan Zhong,True
+Zhong,False
+The,False
+Ying,True
+King,False
+King Zhaoxiang,False
+Zhaoxiang,True
+Qin,False
+Wang,False
+Wang Yi,False
+Yi,False
+Handan,False
+Zhao,False
+Zichu,True
+Zichu,True
+Lv,False
+Lv Buwei,True
+Buwei,False
+Zichu,True
+Qin,False
+The,False
+Zhao,False
+Zichu,True
+Zhao,False
