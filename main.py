@@ -17,8 +17,8 @@ logger.setLevel(logging.INFO)
 func_list = [tree.DecisionTreeClassifier, \
             ensemble.RandomForestClassifier, \
             svm.SVC, \
-            linear_model.LinearRegression, \
             linear_model.LogisticRegression]
+# linear_model.LinearRegression, \
 
 #{'max_depth':20, 'n_estimators':30, 'criterion':"entropy", 'max_features':None, 'min_samples_split':17}
 func_param = [{'max_depth':9}, {}, {'kernel':'rbf', 'C':2, 'gamma': 0.1}, {}, {'C':1e5}]
@@ -26,21 +26,23 @@ func_param = [{'max_depth':9}, {}, {'kernel':'rbf', 'C':2, 'gamma': 0.1}, {}, {'
 
 def bool_to_float(X):
     for c, t in zip(X.columns.values, X.dtypes):
-        if t == 'object':
+        if c == "ngram":
+            continue
+        if t == 'object' or t == 'bool':
             X[c] = X[c].astype('float')
     return X
 
 
 def load_data(path_X, path_Y, from_csv=False, label='train', workers=4):
     if from_csv:
-        X = pd.read_csv(path_X, index_col=[0,1], true_values=['True'], false_values=['False'])
+        X = pd.read_csv(path_X, index_col=['ngram','doc_id'], true_values=['True'], false_values=['False'])
         Y = pd.read_csv(path_Y, index_col=0, true_values=['True'], false_values=['False'])
     else:
         X = load_X(path_X, workers)
-        X.to_csv(label+'_X.csv')
         Y = load_Y(path_Y, X)
         Y.to_csv(label+'_Y.csv')
         X = X.set_index(['ngram', 'doc_id'])
+        X.to_csv(label+'_X.csv')
         # X, Y are data frames
         # index for X: (ngram, doc_id)
         # index for Y: ngram
@@ -59,7 +61,7 @@ def load_Y(path, X):
     Y = pd.concat(y).to_frame()
     Y.columns = ['gt']
     Y['ngram'] = X['ngram']
-    return bool_to_float(Y.set_index(['ngram']))
+    return Y.set_index(['ngram'])
 
 
 def train_model(X, Y):
@@ -89,7 +91,6 @@ def train_model(X, Y):
             best_idx = idx
             best_F1 = F1
             best_classifier = classifier
-        break
 
     print("Training finished: the best classifier is {}. Its best F1 score is {}.\n".format(best_classifier, best_F1))
 
@@ -212,21 +213,29 @@ class NameIdentifier(object):
         train_X = self.X.values
         train_Y = np.squeeze(self.Y.values)
         self.classifiers, self.best_classifier = train_model(train_X, train_Y)
+    
+    @staticmethod
+    def get_debug_df(X_df, Y_df, pred, Y):
+        df = pd.DataFrame(data=np.hstack([Y_df.index.values.reshape(-1,1), 
+                                          X_df.reset_index().doc_id.values.reshape(-1,1), 
+                                          pred.reshape(-1,1), 
+                                          Y.reshape(-1,1)]), 
+                                          columns=['ngram', 'doc_id', 'predict',  'gt']).astype(
+                                          {'ngram': 'object', 'doc_id': 'int64', 
+                                           'predict': 'bool','gt':'bool'})
+        return df
         
     def test(self):
         debug_X = self.test_X.values # load_X(path_debug_X)
         debug_Y = np.squeeze(self.test_Y.values) # load_Y(path_debug_Y)
         debug_pred = debug_PQ_set(debug_X, debug_Y, self.best_classifier)
-        return pd.DataFrame(data=np.hstack([self.test_Y.index.values.reshape(-1,1), 
-                                            debug_pred.reshape(-1,1), debug_Y.reshape(-1,1)]), 
-                            columns=['ngram','predict', 'gt']).astype({'ngram': 'object','predict': 'bool','gt':'bool'})
+        return NameIdentifier.get_debug_df(self.test_X, self.test_Y, debug_pred, debug_Y)
+    
     def debug(self, X, Y, classifier):
         debug_X = X.values # load_X(path_debug_X)
         debug_Y = np.squeeze(Y.values) # load_Y(path_debug_Y)
         debug_pred = debug_PQ_set(debug_X, debug_Y, classifier)
-        return pd.DataFrame(data=np.hstack([Y.index.values.reshape(-1,1), 
-                                            debug_pred.reshape(-1,1), debug_Y.reshape(-1,1)]), 
-                            columns=['ngram','predict', 'gt']).astype({'ngram': 'object','predict': 'bool','gt':'bool'})
+        return NameIdentifier.get_debug_df(X, Y, debug_pred, debug_Y)
 
 
 if __name__ == "__main__":
