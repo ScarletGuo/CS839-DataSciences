@@ -3,6 +3,7 @@ from n_grams import find_ngram_features
 from sklearn import linear_model, svm, tree, ensemble, datasets
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_predict, GridSearchCV, cross_val_score
+from features import prefix
 from extract_gt import *
 import pandas as pd
 import graphviz 
@@ -136,8 +137,19 @@ def calculate_PR(Y, Y_pred, thres=0.5):
         return 0
 
 # post processing
-def rule_based_post_processing(Y_pred):
-    pass
+def rule_based_post_processing(X, Y_pred):
+    # one span only has one true, and prefer the longer one
+    X_df = X.copy()
+    X_df['predict'] = Y_pred
+    for cls, group in X_df.reset_index().groupby(['span', 'doc_id', 'sts_id']):
+        if group['predict'].sum() > 1:
+            # pick the longest true one that does not contain a prefix
+            candidates = group[group['predict']==1]
+            idx = candidates.length.idxmax()
+            X_df.loc[group.index.values, 'predict'] = 0
+            X_df.loc[idx, 'predict'] = 1
+    return X_df.predict.values
+            
 
 def debug_PQ_set(X, Y, best_classifier):
     """
@@ -166,23 +178,24 @@ def analyze_false_positive(Y, Y_pred):
     then identify and debug the false positive/negative examples; 
     if you try to improve recall then pay attention to the false negative examples
     """
+    pass
 
 def test_model(X, Y, best_classifier):
     """
     Now we have found the best one classifier, apply it onto the test data
     """
     
-    #print("Before rule-based postprocessing step:\n")
-    X = get_x(X)
+    print("Before rule-based postprocessing step:\n")
+    XX = get_x(X)
     Y = get_y(Y)
-    Y_pred = best_classifier.predict(X)
+    Y_pred = best_classifier.predict(XX)
     F1 = calculate_PR(Y, Y_pred)
 
-    #print("After rule-based postprocessing step:\n")
-    #Y_pred_after = rule_based_post_processing(Y_pred)
-    #calculate_PR(Y, Y_pred_after)
+    print("After rule-based postprocessing step:\n")
+    Y_after = rule_based_post_processing(X.reset_index(), Y_pred)
+    calculate_PR(Y, Y_after)
     
-    return Y_pred
+    return Y_pred, Y_after
     
 def get_x(X):
     return X.values
@@ -226,8 +239,8 @@ class NameIdentifier(object):
         if classifier is None:
             classifier = self.M
         print("********** TEST **********")
-        pred = test_model(self.test_X, self.test_Y, classifier)
-        return NameIdentifier.get_debug_df(self.test_X, self.test_Y, pred, get_y(self.test_Y))
+        pred, after = test_model(self.test_X, self.test_Y, classifier)
+        return NameIdentifier.get_debug_df(self.test_X, self.test_Y, pred, get_y(self.test_Y)), NameIdentifier.get_debug_df(self.test_X, self.test_Y, after, get_y(self.test_Y))
     
     @staticmethod
     def get_path(demo):
