@@ -10,7 +10,7 @@ project page for CS839 Data Sciences (2019 Fall)
 
  [Link](https://github.com/ScarletGuo/CS839-DataSciences/tree/master/data/all) to a directory that stores the 300+ documents.
 
- [Labeled Link](https://github.com/ScarletGuo/CS839-DataSciences/tree/master/data/labeled/train) [Original Link](https://github.com/ScarletGuo/CS839-DataSciences/tree/master/data/original/train) to all documents in set I.
+ [Labeled Link](https://github.com/ScarletGuo/CS839-DataSciences/tree/master/data/labeled/train) and [Original Link](https://github.com/ScarletGuo/CS839-DataSciences/tree/master/data/original/train) to all documents in set I.
 
  [Labeled Link](https://github.com/ScarletGuo/CS839-DataSciences/tree/master/data/labeled/test) and [Original Link](https://github.com/ScarletGuo/CS839-DataSciences/tree/master/data/original/test) to all documents in set J.
 
