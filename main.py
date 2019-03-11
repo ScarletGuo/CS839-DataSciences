@@ -1,6 +1,7 @@
 import numpy as np
 from n_grams import find_ngram_features
 from sklearn import linear_model, svm, tree, ensemble, datasets
+from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_predict, GridSearchCV, cross_val_score
 from extract_gt import *
 import pandas as pd
@@ -15,10 +16,11 @@ logger.setLevel(logging.INFO)
 
 
 func_list = [tree.DecisionTreeClassifier, \
-            ensemble.RandomForestClassifier, \
-            svm.SVC, \
-            linear_model.LogisticRegression]
-# linear_model.LinearRegression, \
+             ensemble.RandomForestClassifier, \
+             svm.SVC, \
+             linear_model.LinearRegression, \
+             linear_model.LogisticRegression]
+
 
 #{'max_depth':20, 'n_estimators':30, 'criterion':"entropy", 'max_features':None, 'min_samples_split':17}
 func_param = [{'max_depth':9}, {}, {'kernel':'rbf', 'C':2, 'gamma': 0.1}, {}, {'C':1e5}]
@@ -43,7 +45,6 @@ def load_data(path_X, path_Y, from_csv=False, label='train', workers=4):
         X.to_csv(label+'_X.csv')
         Y = load_Y(path_Y, X.reset_index())
         Y.to_csv(label+'_Y.csv')
-        
         # X, Y are data frames
         # index for X: (ngram, doc_id)
         # index for Y: ngram
@@ -72,33 +73,31 @@ def train_model(X, Y):
     """
     train classifier within function list, using Cross-Validation, find best F1 and best classifier
     """
-    best_F1 = -1
-    classifiers = []
+    X = get_x(X)
+    Y = get_y(Y)
+    best_score = -1
 
     for idx in range(len(func_list)):
         func = func_list[idx]
         classifier = func(**func_param[idx])
         print("Using {}. {}".format(idx, func.__name__))
-        
-        # CV to get the generalization error of classifier
-#         Y_pred = cross_val_predict(classifier, X, Y, cv=5)
-#         F1 = calculate_PR(Y, Y_pred)
-        scores = cross_val_score(classifier, X, Y, scoring='f1', cv=5)  # not use; should search classifier with highest F1
-        F1 = scores.mean()
 
-        classifier.fit(X, Y)  # must call .fit() before call .predict()
-        print("best_param = {}".format(classifier))
-        
-        classifiers.append(classifier)
-        
-        if F1 > best_F1:
-            best_idx = idx
-            best_F1 = F1
-            best_classifier = classifier
+        try:
+            scores = cross_val_score(classifier, X, Y, scoring='f1', cv=5)  # not use; should search classifier with highest F1
+            score = scores.mean()
 
-    print("Training finished: the best classifier is {}. Its best F1 score is {}.\n".format(best_classifier, best_F1))
+            classifier.fit(X, Y)  # must call .fit() before call .predict()        
 
-    return classifiers, best_classifier
+            if score > best_score:
+                best_idx = idx
+                best_score = score
+                best_classifier = classifier
+        except Exception as e:
+            print("ERROR running {}: {}".format(classifier, e))
+
+    print("Training finished: the best classifier is {}. Its best F1 score is {}.\n".format(best_classifier, best_score))
+
+    return best_classifier
 
 def calculate_PR(Y, Y_pred, thres=0.5):
     # calculate the Precision, Recall and F1 values, given prediction and gt label
@@ -147,15 +146,13 @@ def debug_PQ_set(X, Y, best_classifier):
     then identify and debug the false positive/negative examples; 
     if you try to improve recall then pay attention to the false negative examples
     """
-    print("Try the best classifier on debug mode!\n")
-    #print("Best classifier is {}".format(best_classifier.__name__))
-    print("Best_param : {}".format(best_classifier))
-
-    print("Before rule-based postprocessing step:\n")
+    X = get_x(X)
+    Y = get_y(Y)
+    #print("Before rule-based postprocessing step:\n")
     Y_pred = best_classifier.predict(X)
     F1 = calculate_PR(Y, Y_pred)
 
-    print("After rule-based postprocessing step:\n")
+    # print("After rule-based postprocessing step:\n")
     #Y_pred_after = rule_based_post_processing(Y_pred)
     #calculate_PR(Y, Y_pred_after)
 
@@ -174,17 +171,24 @@ def test_model(X, Y, best_classifier):
     """
     Now we have found the best one classifier, apply it onto the test data
     """
-    print("Apply the best classifier on test mode!\n")
-    #print("Best classifier is {}".format(best_classifier.__name__))
-    print("Best_param : {}".format(best_classifier))
     
-    print("Before rule-based postprocessing step:\n")
+    #print("Before rule-based postprocessing step:\n")
+    X = get_x(X)
+    Y = get_y(Y)
     Y_pred = best_classifier.predict(X)
     F1 = calculate_PR(Y, Y_pred)
 
-    print("After rule-based postprocessing step:\n")
+    #print("After rule-based postprocessing step:\n")
     #Y_pred_after = rule_based_post_processing(Y_pred)
     #calculate_PR(Y, Y_pred_after)
+    
+    return Y_pred
+    
+def get_x(X):
+    return X.values
+
+def get_y(Y):
+    return np.squeeze(Y.values)
     
 class NameIdentifier(object):
     
@@ -196,8 +200,34 @@ class NameIdentifier(object):
             path_train_X, path_train_Y, path_test_X, path_test_Y = NameIdentifier.get_path(demo)
             self.X, self.Y = load_data(path_train_X, path_train_Y, label='train', workers=num_workers)
             self.test_X, self.test_Y = load_data(path_test_X, path_test_Y, label='test', workers=num_workers)
-        self.classifiers = []
-        self.best_classifier = None
+        self.training = None
+        self.M = None
+        
+    def run(self):
+        P, Q, P_label, Q_label = self.split_sets()
+        self.first_cv(P, P_label)
+        return self.debug(Q, Q_label)
+        
+    def split_sets(self):
+        # split train into P and Q
+        P, Q, P_label, Q_label =  train_test_split(self.X, self.Y, test_size=0.2)
+        return P, Q, P_label, Q_label
+    
+    def first_cv(self, P, P_label):
+        print("********** FIRST CV **********")
+        self.M = train_model(P, P_label)
+        
+    def debug(self, X, Y):
+        print("********** DEBUG **********")
+        debug_pred = debug_PQ_set(X, Y, self.M)
+        return NameIdentifier.get_debug_df(X, Y, debug_pred, get_y(Y))
+    
+    def test(self, classifier=None):
+        if classifier is None:
+            classifier = self.M
+        print("********** TEST **********")
+        pred = test_model(self.test_X, self.test_Y, classifier)
+        return NameIdentifier.get_debug_df(self.test_X, self.test_Y, pred, get_y(self.test_Y))
     
     @staticmethod
     def get_path(demo):
@@ -212,11 +242,6 @@ class NameIdentifier(object):
             path_test_X = 'data/original/t/'
             path_test_Y = 'data/labeled/t/'
         return path_train_X, path_train_Y, path_test_X, path_test_Y
-            
-    def train(self):
-        train_X = self.X.values
-        train_Y = np.squeeze(self.Y.values)
-        self.classifiers, self.best_classifier = train_model(train_X, train_Y)
     
     @staticmethod
     def get_debug_df(X_df, Y_df, pred, Y):
@@ -228,19 +253,9 @@ class NameIdentifier(object):
                                           columns=['ngram', 'doc_id', 'span', 'predict', 'gt']).astype(
                                           {'ngram': 'object', 'doc_id': 'int64', 'span': 'object',
                                            'predict': 'bool','gt':'bool'})
-        return df
+        return df[df['gt']!=df['predict']]
         
-    def test(self):
-        debug_X = self.test_X.values # load_X(path_debug_X)
-        debug_Y = np.squeeze(self.test_Y.values) # load_Y(path_debug_Y)
-        debug_pred = debug_PQ_set(debug_X, debug_Y, self.best_classifier)
-        return NameIdentifier.get_debug_df(self.test_X, self.test_Y, debug_pred, debug_Y)
     
-    def debug(self, X, Y, classifier):
-        debug_X = X.values # load_X(path_debug_X)
-        debug_Y = np.squeeze(Y.values) # load_Y(path_debug_Y)
-        debug_pred = debug_PQ_set(debug_X, debug_Y, classifier)
-        return NameIdentifier.get_debug_df(X, Y, debug_pred, debug_Y)
 
 
 if __name__ == "__main__":
