@@ -14,5 +14,7 @@ project page for CS839 Data Sciences (2019 Fall)
 
  [Link](https://github.com/ScarletGuo/CS839-DataSciences) to all codes.
 
- Link to a compressed file that stores all of the above directories.
+ Link ??? to a compressed file that stores all of the above directories.
+
+ [Link](https://github.com/ScarletGuo/CS839-DataSciences/tree/master/docs) to the pdf report document.
 
