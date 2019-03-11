@@ -1,3 +1,4 @@
+from n_grams import get_sentences
 from io import open
 import os
 import re
@@ -6,11 +7,11 @@ train_dir = './data/labeled/train/'
 test_dir = './data/labeled/test/'
 
 def extract_single_file(fname):
-    result_list = []
-    with open(fname, "r",encoding='utf-8', errors='replace') as fp:
-        for line in fp:
-            result =  re.findall('<>(.*?)<', line,  re.S)
-            result_list = result_list + result 
+    result_list = {}
+    sts_list = get_sentences(fname)
+    for sts_id, sts in enumerate(sts_list):
+        result = re.findall('<>(.*?)<', sts,  re.S)
+        result_list[sts_id] = result 
     return result_list
 
 

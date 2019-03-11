@@ -22,7 +22,8 @@ def get_features(tokens, this_tokens, gram_idx, grams, sentence, span):
         'has_quote_s': u"'s" in " ".join(grams),
         'next_has_quote_s': u"'s" in get_next(tokens, gram_idx, 'text'),
         'pre_has_prefix': get_prev(tokens, gram_idx, 'text').lower() in prefix,
-        'has_prefix': has_prefix(grams)
+        'has_prefix': has_prefix(grams),
+        'prev_is_of': get_prev(tokens, gram_idx, 'text').lower().strip() == "of"
     }
     for attr in single_token_feature:
         features['prev_'+attr] = get_prev(tokens, gram_idx, attr)

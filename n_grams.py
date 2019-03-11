@@ -27,9 +27,9 @@ tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
 class NgramFeature(object):
     def __init__(self, doc_id, ngram, span, sts_id, span_id, n):
-        self.sts_id = sts_id
         self.features = {
             'doc_id': doc_id,
+            'sts_id': sts_id,
             'ngram': ngram,
             'span': span,
             'span_id': span_id,
@@ -49,7 +49,7 @@ class NgramFeature(object):
 """
 @return list of sentences in a file
 """
-def get_sentances(fname):
+def get_sentences(fname):
     ## Note: if need download punkt model use: nltk.download('punkt')
     with open(fname, "r", encoding='utf-8', errors='replace') as fp:
         data = fp.read()
@@ -104,7 +104,7 @@ def find_ngram_index(doc_id, sts_list, comb_len):
 
 
 def process_file(txt_name, dir_name='', comb_len=3):
-    fobj = find_ngram_index(get_doc_id(txt_name), get_sentances(join(dir_name, txt_name)), comb_len)
+    fobj = find_ngram_index(get_doc_id(txt_name), get_sentences(join(dir_name, txt_name)), comb_len)
     #logger.info('Done processing %s'%txt_name)
     return fobj
 
@@ -138,7 +138,7 @@ def get_instances():
     combination = [1, 2, 3]
     sts_list = []
     for txt_name in txt_names:
-        sts_list = sts_list + get_sentances(join(path, txt_name))
+        sts_list = sts_list + get_sentences(join(path, txt_name))
         for i in combination:  # length of combination
             count += 1
             text = list(open(join(path, txt_name), "r", encoding='utf-8', errors='replace').readlines())

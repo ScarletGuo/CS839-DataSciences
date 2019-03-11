@@ -35,14 +35,15 @@ def bool_to_float(X):
 
 def load_data(path_X, path_Y, from_csv=False, label='train', workers=4):
     if from_csv:
-        X = pd.read_csv(path_X, index_col=['ngram','doc_id', 'span'], true_values=['True'], false_values=['False'])
+        X = pd.read_csv(path_X, index_col=['ngram','doc_id', 'sts_id', 'span'], true_values=['True'], false_values=['False'])
         Y = pd.read_csv(path_Y, index_col=0, true_values=['True'], false_values=['False'])
     else:
         X = load_X(path_X, workers)
-        Y = load_Y(path_Y, X)
-        Y.to_csv(label+'_Y.csv')
-        X = bool_to_float(X.set_index(['ngram', 'doc_id', 'span']))
+        X = bool_to_float(X.set_index(['ngram', 'doc_id', 'sts_id', 'span']))
         X.to_csv(label+'_X.csv')
+        Y = load_Y(path_Y, X.reset_index())
+        Y.to_csv(label+'_Y.csv')
+        
         # X, Y are data frames
         # index for X: (ngram, doc_id)
         # index for Y: ngram
@@ -54,10 +55,12 @@ def load_X(path, workers):
 
 
 def load_Y(path, X):
-    # dictionary: {doc_id: list of names}
+    # dictionary: {doc_id: sts_id: list of names}
     gt = extract_gt(path)
-    y = [group['ngram'].apply(lambda x: x in gt[doc_id]) 
-    for doc_id, group in X.groupby('doc_id')]
+    y = [group['ngram'].apply(lambda x: x in gt[cls[0]][cls[1]]) 
+         for cls, group in X.groupby(['doc_id', 'sts_id'])]
+    #y = [group['ngram'].apply(lambda x: x in gt[doc_id]) 
+    #for doc_id, group in X.groupby('doc_id')]
     Y = pd.concat(y).to_frame()
     Y.columns = ['gt']
     Y['ngram'] = X['ngram']

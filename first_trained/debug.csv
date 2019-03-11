@@ -1,0 +1,100 @@
+ngram,doc_id,span,predict,gt
+Ying,269,Ying,False,True
+Ying,269,Ying,False,True
+Ying,245,Ying,False,True
+Ying,245,Ying,False,True
+Lady Huayang,288,Lady Huayang,True,False
+Huayang,288,Lady Huayang,False,True
+Danger,287,Danger,True,False
+Min,120,King Min,True,False
+Zhuan Xu,4,Emperor Zhuan Xu,False,True
+Nvxiu,4,Nvxiu,False,True
+Daye,4,Daye,False,True
+Shao Dian,4,Shao Dian,True,False
+Dafei,4,Dafei,False,True
+Shun,13,Shun,False,True
+Boyi,13,Boyi,False,True
+Shun,13,Shun,False,True
+Valley Mouth,116,Valley Mouth,True,False
+Lady Huayang,282,Lady Huayang,True,False
+Huayang,282,Lady Huayang,False,True
+Lady Huayang,282,Lady Huayang,True,False
+Huayang,282,Lady Huayang,False,True
+Lady Huayang,282,Lady Huayang,True,False
+Huayang,282,Lady Huayang,False,True
+Lady Huayang,282,Lady Huayang,True,False
+Huayang,282,Lady Huayang,False,True
+Persons,209,Persons,True,False
+Shuli Zi,6,313 BC ) Shuli Zi,False,True
+Zhuang Bao,6,the Zhao general Zhuang Bao prisoner,False,True
+Baili Xi,157,the grandee Baili Xi,False,True
+Wen,256,Duke Wen,False,True
+Lady Huayang,273,Lady Huayang,True,False
+Huayang,273,Lady Huayang,False,True
+Qingji,107,Prince Qingji,False,True
+Death,107,Death,True,False
+Fan Shu,182,no Fan Shu,False,True
+Gui,127,Gui,False,True
+Ji,127,Ji,False,True
+Xiaoguo,127,Xiaoguo,False,True
+Wu,110,Wu,True,False
+Helv,110,King Helv,False,True
+Hann,72,Hann 's city,True,False
+Gongshu,72,Gongshu,False,True
+Hao,115,Hao,False,True
+Hao,115,Hao,False,True
+Hui,115,Hui,False,True
+Daluo,70,Daluo,False,True
+Wang,41,Wang,False,True
+Pingyuan,218,Long Pingyuan,False,True
+Fuji,121,Fuji,True,False
+Chuzi,121,Chuzi,False,True
+Chuzi,121,Chuzi,False,True
+Yao Pass,108,Yao Pass,True,False
+Later,266,Later Cai Ze,True,False
+Cai,266,Later Cai Ze,True,False
+Wen,238,Duke Wen,False,True
+Shun,10,Emperor Shun,False,True
+Feizi,52,Feizi,False,True
+Daluo,52,Daluo,False,True
+Marquis Shen,52,Marquis Shen,True,False
+Shen,52,Marquis Shen,False,True
+Daluo,52,Daluo,False,True
+Shangdang,48,Shangdang,True,False
+Shu,5,Shu,False,True
+Chonger,184,Chonger,False,True
+Lv,184,Lv Sheng,False,True
+Xi,184,Xi Rui,False,True
+Lv,184,Lv,False,True
+Xi,184,Xi,False,True
+Chonger,184,Chonger,False,True
+Ying,296,Ying,False,True
+Yiyang,66,Yiyang,True,False
+Xiang,66,King Xiang,True,False
+Xingqiu,128,Xingqiu,False,True
+Dalian,22,Dalian 's great - great - grandsons,True,False
+Mengxi,22,Mengxi,False,True
+Zhongyan,22,Zhongyan,False,True
+Zhongyan,22,Zhongyan,False,True
+Taiwu,22,Emperor Taiwu,False,True
+Yiwu,211,Yiwu,False,True
+Fan,221,our Lord Fan,True,False
+Pingyuan,221,Lord Pingyuan,False,True
+Wang Yi,297,Wang Yi,True,False
+Wuan,254,Lord Wuan,False,True
+Tian Wen,137,Tian Wen,True,False
+Wen,137,Tian Wen,False,True
+Gaoling,137,Gaoling,False,True
+Jingyang,137,Jingyang,False,True
+Ying,62,Ying,False,True
+Su Dai,78,Su Dai,True,False
+Hann,134,Hann,True,False
+Xingyang,134,Xingyang,False,True
+Xingyang,134,Xingyang,False,True
+Guo,295,Guo,True,False
+Yiwu,178,Yiwu,False,True
+Ji,0,Ji,False,True
+Hann,131,Hann,True,False
+Who,29,Who,True,False
+Liang,151,Liang,False,True
+Rui,151,Rui,False,True
