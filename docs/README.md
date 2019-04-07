@@ -6,7 +6,7 @@ project page for CS839 Data Sciences (2019 Fall)
 * Zhihan Guo
 * Yiwu Zhong
 
-## Link for Project 1
+## Link for Project Stage 1
 
  [Link](https://github.com/ScarletGuo/CS839-DataSciences/tree/master/data/all) to a directory that stores the 300+ documents.
 
@@ -20,3 +20,8 @@ project page for CS839 Data Sciences (2019 Fall)
 
  [Link](https://github.com/ScarletGuo/CS839-DataSciences/blob/master/CS_839_Project_Stage_1.pdf) to the pdf report document.
 
+## Link for Project Stage 2
+
+[Link](https://github.com/ScarletGuo/CS839-DataSciences/tree/master/stage%202/data) to a directory that stores the data.
+[Link](https://github.com/ScarletGuo/CS839-DataSciences/tree/master/stage%202/code) to a directory that stores the codes.
+[Link](https://github.com/ScarletGuo/CS839-DataSciences/blob/master/stage%202/CS_839_Project_Stage_2.pdf) to the pdf report document.
