@@ -27,3 +27,9 @@ project page for CS839 Data Sciences (2019 Fall)
 [Link](https://github.com/ScarletGuo/CS839-DataSciences/tree/master/stage%202/code) to a directory that stores the codes.
 
 [Link](https://github.com/ScarletGuo/CS839-DataSciences/blob/master/stage%202/CS_839_Project_Stage_2.pdf) to the pdf report document.
+
+## Matching Fodors and Zagats
+
+* User ID: cs839sp19g3
+* Project ID: stage3demo
+* [Screenshot](https://github.com/ScarletGuo/CS839-DataSciences/blob/master/stage3-demo/cs839-demo.png)
