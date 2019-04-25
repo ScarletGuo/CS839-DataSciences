@@ -35,16 +35,16 @@ project page for CS839 Data Sciences (2019 Fall)
 * User ID: cs839sp19g3
 * Project ID: stage3demo
 * [Screenshot](https://github.com/ScarletGuo/CS839-DataSciences/blob/master/stage3-demo/cs839-demo.png)
-* ![Screenshot](https://github.com/ScarletGuo/CS839-DataSciences/blob/master/stage3-demo/cs839-demo.png)
+* ![Screenshot](https://github.com/ScarletGuo/CS839-DataSciences/blob/master/stage3-demo/cs839-demo.png?raw=true)
 
 ### Blocking Results: 
 * User ID: cs839sp19g3
 * Project ID: stage3demo
 * [Screenshot](https://github.com/ScarletGuo/CS839-DataSciences/blob/master/stage3/blocking.png)
-* ![](https://github.com/ScarletGuo/CS839-DataSciences/blob/master/stage3/blocking.png)
+* ![](https://github.com/ScarletGuo/CS839-DataSciences/blob/master/stage3/blocking.png?raw=true)
 
 ### Matching Results: 
 * User ID: cs839sp19g3
 * Project ID: stage3demo
 * [Screenshot](https://github.com/ScarletGuo/CS839-DataSciences/blob/master/stage3/matching.png)
-* ![](https://github.com/ScarletGuo/CS839-DataSciences/blob/master/stage3/matching.png)
+* ![](https://github.com/ScarletGuo/CS839-DataSciences/blob/master/stage3/matching.png?raw=true)
