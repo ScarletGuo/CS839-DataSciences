@@ -34,7 +34,7 @@ project page for CS839 Data Sciences (2019 Fall)
 
 * User ID: cs839sp19g3
 * Project ID: stage3demo
-* [Screenshot](https://github.com/ScarletGuo/CS839-DataSciences/blob/master/stage3-demo/cs839-demo.png)
+* ![Screenshot](https://github.com/ScarletGuo/CS839-DataSciences/blob/master/stage3-demo/cs839-demo.png)
 
 ### BLOCKING: 
 * User ID: cs839sp19g3
